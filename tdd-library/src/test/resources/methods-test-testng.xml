@@ -1,0 +1,9 @@
+<suite name="Test-method Suite" parallel="tests" thread-count="3">
+    <!--<test name="Test-method test" group-by-instances="true">-->
+    <test name="Test-class test">
+        <classes>
+            <!--<class name="com.xfboy.ParallelMethodTest"/>-->
+            <class name="com.xfboy.ParallelClassesTestTwo"/>
+        </classes>
+    </test>
+</suite>

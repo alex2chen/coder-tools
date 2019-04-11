@@ -49,7 +49,8 @@ Temporary Items
 
 
 #my
-/target/
+/target
+*/target
 /.classpath
 /.settings
 /.project
