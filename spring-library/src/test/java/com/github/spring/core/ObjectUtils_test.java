@@ -1,6 +1,6 @@
 package com.github.spring.core;
 
-import com.github.spring.SpringConfigReader;
+import com.github.spring.util.SpringConfigReader;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ObjectUtils;
