@@ -1,4 +1,4 @@
-package com.github.common.http;
+package com.github.net.http;
 
 import org.junit.Test;
 

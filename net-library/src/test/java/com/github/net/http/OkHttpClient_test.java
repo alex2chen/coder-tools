@@ -1,7 +1,6 @@
-package com.github.common.http;
+package com.github.net.http;
 
 import okhttp3.*;
-import org.apache.http.HttpResponse;
 import org.junit.Test;
 
 import java.io.IOException;
