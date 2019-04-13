@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.db.order.StockMapper">
+
+    <resultMap id="stockResult" type="stock">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="count" column="count"/>
+    </resultMap>
+
+    <select id="selectStock" resultType="stock" parameterType="int" resultMap="stockResult">
+        SELECT id, name, count from stock WHERE id = #{id}
+    </select>
+
+    <insert id="insertStock" parameterType="stock" keyProperty="id" useGeneratedKeys="true">
+        INSERT into stock(name,count) VALUES(#{name}, #{count})
+    </insert>
+
+    <update id="updateStock" parameterType="stock">
+        UPDATE stock SET count=#{count} WHERE id =#{id}
+    </update>
+
+    <delete id="deleteStock" parameterType="int">
+        DELETE FROM stock WHERE id =#{id}
+    </delete>
+
+</mapper>

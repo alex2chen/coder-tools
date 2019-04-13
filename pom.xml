@@ -16,6 +16,7 @@
         <module>common-library</module>
         <module>jvm-library</module>
         <module>net-library</module>
+        <module>tensorflow-library</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
