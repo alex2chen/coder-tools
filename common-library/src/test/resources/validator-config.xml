@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<validationConfig>
+    <annotations>
+        <annotation>
+            <name>最小值校验</name>
+            <chkType>javax.validation.constraints.Min</chkType>
+            <chkFeilds>
+                <list>
+                    <type>java.lang.Integer</type>
+                    <type>java.lang.Long</type>
+                </list>
+            </chkFeilds>
+            <chkText>@Min(value = 0)</chkText>
+            <chkScopes>
+                <scope>Save</scope>
+                <scope>Update</scope>
+                <scope>Save</scope>
+                <scope>Update</scope>
+            </chkScopes>
+        </annotation>
+        <!--<annotation>-->
+            <!--<name>正则校验</name>-->
+            <!--<chkType>javax.validation.constraints.Pattern</chkType>-->
+            <!--<chkFeilds>-->
+                <!--<type>java.lang.String</type>-->
+            <!--</chkFeilds>-->
+            <!--<chkText>@Pattern(regexp = "[^\\#\\$\\*]")</chkText>-->
+            <!--<chkScopes>-->
+                <!--<scope>Save</scope>-->
+                <!--<scope>Update</scope>-->
+            <!--</chkScopes>-->
+        <!--</annotation>-->
+    </annotations>
+</validationConfig>

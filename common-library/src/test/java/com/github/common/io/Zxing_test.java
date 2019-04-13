@@ -4,7 +4,7 @@ import org.junit.Test;
 
 /**
  * @Author: alex
- * @Description:
+ * @Description
  * @Date: created in 2019/4/11.
  */
 public class Zxing_test {

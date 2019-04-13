@@ -15,4 +15,15 @@ public class System_test {
         Map<String, String> envs = System.getenv();
         envs.entrySet().forEach(x -> System.out.println(x.getKey() + " > " + x.getValue()));
     }
+
+    @Test
+    public void arraycopy() {
+        String[] s = {"Mircosoft", "IBM", "Sun", "Oracle", "Apple"};
+        String[] sBak = new String[6];
+        System.arraycopy(s, 0, sBak, 0, s.length);
+        for (int i = 0; i < sBak.length; i++) {
+            System.out.print(sBak[i] + " ,");
+        }
+        System.out.println(System.getenv());
+    }
 }
