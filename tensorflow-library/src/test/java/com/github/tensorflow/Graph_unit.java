@@ -1,6 +1,10 @@
 package com.github.tensorflow;
 
-import com.sun.corba.se.impl.orbutil.graph.Graph;
+import org.junit.Test;
+import org.tensorflow.Graph;
+import org.tensorflow.Session;
+import org.tensorflow.Tensor;
+import org.tensorflow.TensorFlow;
 
 /**
  * @author alex.chen
@@ -10,9 +14,6 @@ import com.sun.corba.se.impl.orbutil.graph.Graph;
 public class Graph_unit {
     @Test
     public void defineGraph() {
-        /**
-         * 定义一个 graph 类，并在这张图上定义了 foo 与 bar 的两个变量
-         */
         try (Graph g = new Graph()) {
             try (Tensor<Integer> t = Tensor.create(30, Integer.class)) {
                 g.opBuilder("Const", "foo").setAttr("dtype", t.dataType()).setAttr("value", t).build();
@@ -20,7 +21,6 @@ public class Graph_unit {
             try (Tensor<Integer> t = Tensor.create(20, Integer.class)) {
                 g.opBuilder("Const", "bar").setAttr("dtype", t.dataType()).setAttr("value", t).build();
             }
-
             try (Session s = new Session(g);
                  Tensor output1 = s.runner().fetch("foo").run().get(0);
                  Tensor output2 = s.runner().fetch("bar").run().get(0)) {
@@ -30,6 +30,7 @@ public class Graph_unit {
             }
         }
     }
+
     @Test
     public void hello() throws Exception {
         try (Graph g = new Graph()) {
