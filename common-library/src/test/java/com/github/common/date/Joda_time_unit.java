@@ -17,7 +17,7 @@ import java.util.Locale;
  */
 public class Joda_time_unit {
     @Test
-    public void go_parseDateTime() {
+    public void parseDateTime() {
         //String to DateTime
         DateTimeFormatter format = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
         DateTime dateTime = DateTime.parse("2017-6-21 9:22:45", format);
@@ -33,7 +33,7 @@ public class Joda_time_unit {
     }
 
     @Test
-    public void go_useDateTime() {
+    public void useDateTime() {
         DateTime dateTime = DateTime.now();
         Date date = dateTime.toDate();
         System.out.println(date);
