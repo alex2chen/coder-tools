@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Author: alex
- * @Description: RxJava在闲鱼系统吞吐量提升上的实践     https://www.cnblogs.com/davidwang456/articles/10175728.html
+ * @Description:
  * @Date: created in 2018/6/13.
  */
 public class ReactiveX_1x_test {
