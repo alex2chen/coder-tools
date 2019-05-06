@@ -11,7 +11,7 @@ import java.util.RandomAccess;
  * @Date: created in 2018/4/29.
  */
 public class ConcurrentArrayList<T> implements RandomAccess {
-    public static final int MAX_CAPACITY = 1 << 30;
+
     private static final long SIZE_OFFSET;
     private static final int ABASE;
     private static final int ASHIFT;
@@ -35,7 +35,7 @@ public class ConcurrentArrayList<T> implements RandomAccess {
     }
 
     public T get(int index) {
-        return (T) UnsafeUtils.unsafe().getObjectVolatile(values, offset(ABASE, ASHIFT, index));
+        return (T) UnsafeUtils.unsafe().getObjectVolatile(values, ArraySizeUtil.offset(ABASE, ASHIFT, index));
     }
 
     public void add(T value) {
@@ -50,16 +50,7 @@ public class ConcurrentArrayList<T> implements RandomAccess {
     }
 
     public void set(int index, T value) {
-        final long offset = offset(ABASE, ASHIFT, index);
-        for (; ; ) {// like cas
-            final Object[] before = values;
-            UnsafeUtils.unsafe().putOrderedObject(before, offset, value);
-            final Object[] after = values;
-
-            if (before == after) {
-                return;
-            }
-        }
+        UnsafeUtils.spinSet(values,ABASE, ASHIFT, index,value);
     }
 
     public ConcurrentArrayList() {
@@ -67,7 +58,7 @@ public class ConcurrentArrayList<T> implements RandomAccess {
     }
 
     public ConcurrentArrayList(int initialCapacity) {
-        if (initialCapacity > MAX_CAPACITY) {
+        if (initialCapacity > ArraySizeUtil.MAX_CAPACITY) {
             throw new IndexOutOfBoundsException("Illegal initial capacity: " + initialCapacity);
         }
         ensureCapacity(initialCapacity);
@@ -83,8 +74,8 @@ public class ConcurrentArrayList<T> implements RandomAccess {
             if (finalArray != null && finalArray.length >= capacity) {
                 return;
             }
-            int newCapacity = tableSizeFor(capacity);
-            if (newCapacity > MAX_CAPACITY) {
+            int newCapacity = ArraySizeUtil.tableSizeFor(capacity);
+            if (newCapacity > ArraySizeUtil.MAX_CAPACITY) {
                 throw new IndexOutOfBoundsException("" + newCapacity);
             }
 
@@ -97,33 +88,7 @@ public class ConcurrentArrayList<T> implements RandomAccess {
         }
     }
 
-    /**
-     * 成倍扩容
-     *
-     * @param cap
-     * @return
-     */
-    public int tableSizeFor(final int cap) {
-        int n = cap - 1;
-        n |= n >>> 1;
-        n |= n >>> 2;
-        n |= n >>> 4;
-        n |= n >>> 8;
-        n |= n >>> 16;
-        return (n < 0) ? 1 : (n >= MAX_CAPACITY) ? MAX_CAPACITY : n + 1;
-    }
 
-    /**
-     * 获取offset
-     *
-     * @param arrayBase
-     * @param arrayShift
-     * @param index
-     * @return
-     */
-    public long offset(final long arrayBase, final int arrayShift, final int index) {
-        return ((long) index << arrayShift) + arrayBase;
-    }
 
     public int size() {
         return size;
