@@ -4,8 +4,6 @@ import com.github.common.reflect.AnnotationUtil;
 import com.github.common.reflect.ClassUtil;
 import com.github.common.reflect.ReflectionUtil;
 import org.junit.Test;
-import sun.misc.ClassLoaderUtil;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 

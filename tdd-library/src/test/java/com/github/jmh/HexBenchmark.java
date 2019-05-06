@@ -1,5 +1,6 @@
 package com.github.jmh;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.io.BaseEncoding;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
@@ -26,22 +27,25 @@ public class HexBenchmark {
 
     @Benchmark //它是基准测试方法
     /**测试类型
-     * Throughput	吞吐量，每段时间执行的次数，时间窗口是1秒
+     * Throughput	吞吐量，每段时间执行的次数，时间窗口是1秒，ops/s代表Operation per second
      * AverageTime	平均时间，每次操作的平均耗时，时间窗口是1秒
      * SampleTime	在测试中，随机进行采样执行的时间，时间窗口是1秒（会采样百分比）
      * SingleShotTime	在每次执行中计算耗时，无时间窗口
      * All	顾名思义，所有模式，这个在内部测试中常用
      */
     @BenchmarkMode({Mode.Throughput})
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)//结果的时间类型
+    @OutputTimeUnit(TimeUnit.SECONDS)//结果的时间类型
     public void do_nothing() {
     }
 
     @Benchmark
     @BenchmarkMode({Mode.Throughput})
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    @OutputTimeUnit(TimeUnit.SECONDS)
     public String toHexByGuava() {
-        return BaseEncoding.base16().encode(bytes);
+//        Stopwatch stopwatch=Stopwatch.createStarted();
+        String encode = BaseEncoding.base16().encode(bytes);
+//        System.out.println(stopwatch);
+        return encode;
     }
 
     /**
@@ -54,7 +58,7 @@ public class HexBenchmark {
      */
     @Benchmark
     @BenchmarkMode({Mode.AverageTime})
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    @OutputTimeUnit(TimeUnit.SECONDS)
     public long calcTimes() throws Exception {
         Thread.sleep(200);
         System.out.print("JMH:");
@@ -71,7 +75,7 @@ public class HexBenchmark {
                  */
                 .warmupIterations(2)
                 /**度量
-                 * # Measurement: 3 iterations, 1 s each，每秒预热1轮
+                 * # Measurement: 3 iterations, 1 s each，每秒进行1轮
                  * # Timeout: 10 min per iteration
                  * iterations进行测试的轮次,time每轮进行的时长,timeUnit时长单位
                  * 等价于@Measurement(iterations = 3)

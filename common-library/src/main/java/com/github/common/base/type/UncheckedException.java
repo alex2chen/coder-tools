@@ -7,8 +7,6 @@ package com.github.common.base.type;
  */
 public class UncheckedException extends RuntimeException {
 
-    private static final long serialVersionUID = 4140223302171577501L;
-
     public UncheckedException(Throwable wrapped) {
         super(wrapped);
     }
