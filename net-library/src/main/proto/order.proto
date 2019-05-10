@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+// stub选项
+option java_multiple_files = true;
+option java_package = "com.github.net.grpc";
+option java_outer_classname = "OrderApi";
+
+// 定义包名
+package com.github.net.grpc;
+
+service OrderService {
+  rpc getOrder (OrderId) returns (OrderDTO) {}
+
+  rpc addOrder (OrderDTO) returns (OrderId) {}
+
+  rpc queryOrder (OrderDTO) returns (stream OrderId) {}
+}
+message OrderId {
+  int32 id = 1;
+}
+message OrderDTO {
+  string name = 1;
+  string address = 2;
+  string buyDate = 3;
+  repeated ProductDTO products=4;
+}
+message ProductDTO {
+  int32 id = 1;
+  string prodName = 2;
+}
