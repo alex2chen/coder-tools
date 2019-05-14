@@ -1,6 +1,6 @@
-package com.github.common.io.compress;
+package com.github.common.compress;
 
-import com.github.common.io.compress.tar.TAR;
+import com.github.common.compress.tar.TAR;
 
 import java.io.File;
 import java.io.IOException;

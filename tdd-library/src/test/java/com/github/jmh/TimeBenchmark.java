@@ -1,6 +1,6 @@
 package com.github.jmh;
 
-import com.google.common.base.Stopwatch;
+import com.github.util.SystemClock;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -14,13 +14,19 @@ import java.util.concurrent.TimeUnit;
  * @Author: alex
  * @Description:
  * @Date: created in 2019/4/16.
+ * Benchmark                        Mode  Cnt   Score     Error  Units
+ * TimeBenchmark.currentTimeMillis  avgt    6  ≈ 10⁻⁸             s/op
+ * TimeBenchmark.fastSeconds        avgt    6  ≈ 10⁻⁹             s/op
+ * TimeBenchmark.nanoTime           avgt    6  ≈ 10⁻⁸             s/op
+ * TimeBenchmark.nowInstant         avgt    6  ≈ 10⁻⁸             s/op
+ * TimeBenchmark.realTimeSeconds    avgt    6  ≈ 10⁻⁸             s/op
  */
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)//基准测试类型
 @Warmup(iterations = 2)//预热轮数
 @Measurement(iterations = 3)//度量
 @Threads(4)//测试线程
-@OutputTimeUnit(TimeUnit.MILLISECONDS)//基准测试结果的时间类型（毫秒）
+@OutputTimeUnit(TimeUnit.SECONDS)//基准测试结果的时间类型（秒）
 public class TimeBenchmark {
     @Benchmark
     @Fork(2)
@@ -39,7 +45,16 @@ public class TimeBenchmark {
     public Instant nowInstant() throws Exception {
         return Instant.now();
     }
-
+    @Benchmark
+    @Fork(2)
+    public long fastSeconds() throws Exception {
+        return SystemClock.fast().seconds();
+    }
+    @Benchmark
+    @Fork(2)
+    public long realTimeSeconds() throws Exception {
+        return SystemClock.realTime().seconds();
+    }
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
                 .include(TimeBenchmark.class.getSimpleName())

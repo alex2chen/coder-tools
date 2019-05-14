@@ -1,4 +1,4 @@
-package com.github.common.io.compress.gzip;
+package com.github.common.compress.gzip;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package com.github.common.io.compress;
+package com.github.common.compress;
 
 import org.apache.commons.compress.archivers.sevenz.SevenZArchiveEntry;
 import org.apache.commons.compress.archivers.sevenz.SevenZFile;

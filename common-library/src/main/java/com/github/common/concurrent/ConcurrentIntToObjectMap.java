@@ -8,7 +8,10 @@ import java.util.function.Supplier;
 
 /**
  * @Author: alex
- * @Description:
+ * @Description: 无锁并发 Map，key为int(不能超过512k)，value为Object
+ * 读多写少情况下接近直接访问字段的性能
+ * 读多写多情况下是 ConcurrentHashMap 性能的6倍
+ * 适用于key值比较少的情况
  * @Date: created in 2018/5/6.
  */
 public class ConcurrentIntToObjectMap<T> {

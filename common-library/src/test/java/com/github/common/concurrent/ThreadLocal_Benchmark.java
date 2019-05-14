@@ -26,6 +26,7 @@ import java.util.function.Supplier;
  * ThreadLocal_Benchmark.holderArrayFastThread   thrpt    3   866939.228  ops/ms
  * ThreadLocal_Benchmark.arrayFastThread         thrpt    3   795228.062  ops/ms
  * ThreadLocal_Benchmark.threadLocal             thrpt    3   716136.844  ops/ms
+ * ThreadLocal_Benchmark.attachmentThreadUtils   thrpt    3   666553.269  ops/ms
  * ThreadLocal_Benchmark.concurrentMapThread     thrpt    3   608984.534  ops/ms
  * ThreadLocal_Benchmark.concurrentMapId         thrpt    3   531199.615  ops/ms
  * ThreadLocal_Benchmark.concurrentLinkedQueue   thrpt    3     7100.274  ops/ms
@@ -139,7 +140,11 @@ public class ThreadLocal_Benchmark {
     public Integer attachThread() {
         return attachThread.getOrUpdate(1, supplier);
     }
-
+    @Benchmark
+    @Fork(1)
+    public Integer attachmentThreadUtils() {
+        return AttachThreadUtil.getOrUpdate(1, supplier);
+    }
     @Benchmark
     @Fork(1)
     public Integer arrayFastThread() {

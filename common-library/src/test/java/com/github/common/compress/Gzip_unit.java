@@ -1,7 +1,7 @@
-package com.github.common.io.compress;
+package com.github.common.compress;
 
-import com.github.common.io.compress.gzip.GzipApache;
-import com.github.common.io.compress.gzip.GzipJava;
+import com.github.common.compress.gzip.GzipApache;
+import com.github.common.compress.gzip.GzipJava;
 import org.junit.Test;
 
 import java.io.File;

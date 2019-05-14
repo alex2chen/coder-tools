@@ -7,7 +7,7 @@ import java.util.RandomAccess;
 
 /**
  * @Author: alex
- * @Description: 仅支持get/set，不支持remove
+ * @Description: 无锁并发 List 实现，比CopyOnWriteArrayList 的写入开销低，仅支持get/set，O(1) vs O(n)，不支持remove
  * @Date: created in 2018/4/29.
  */
 public class ConcurrentArrayList<T> implements RandomAccess {

@@ -1,4 +1,4 @@
-package com.github.common.io.compress.zip;
+package com.github.common.compress.zip;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;

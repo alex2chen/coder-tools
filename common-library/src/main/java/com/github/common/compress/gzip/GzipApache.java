@@ -1,4 +1,4 @@
-package com.github.common.io.compress.gzip;
+package com.github.common.compress.gzip;
 
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;

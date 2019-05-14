@@ -1,4 +1,4 @@
-package com.github.common.io.compress.jar;
+package com.github.common.compress.jar;
 
 import org.apache.commons.compress.archivers.jar.JarArchiveEntry;
 import org.apache.commons.compress.archivers.jar.JarArchiveInputStream;
