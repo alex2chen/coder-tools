@@ -4,7 +4,7 @@
 package com.github.net.grpc.dto;
 
 public interface ProductDTOOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:com.github.net.grpc.dto.ProductDTO)
+    // @@protoc_insertion_point(interface_extends:ProductDTO)
     com.google.protobuf.MessageOrBuilder {
 
   /**

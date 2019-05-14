@@ -4,11 +4,11 @@
 package com.github.net.grpc.dto;
 
 /**
- * Protobuf type {@code com.github.net.grpc.dto.ProductDTO}
+ * Protobuf type {@code ProductDTO}
  */
 public  final class ProductDTO extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:com.github.net.grpc.dto.ProductDTO)
+    // @@protoc_insertion_point(message_implements:ProductDTO)
     ProductDTOOrBuilder {
   // Use ProductDTO.newBuilder() to construct.
   private ProductDTO(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -68,12 +68,12 @@ public  final class ProductDTO extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return OrderApi.internal_static_com_github_net_grpc_ProductDTO_descriptor;
+    return OrderApi.internal_static_ProductDTO_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return OrderApi.internal_static_com_github_net_grpc_ProductDTO_fieldAccessorTable
+    return OrderApi.internal_static_ProductDTO_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             ProductDTO.class, ProductDTO.Builder.class);
   }
@@ -270,20 +270,20 @@ public  final class ProductDTO extends
     return builder;
   }
   /**
-   * Protobuf type {@code com.github.net.grpc.dto.ProductDTO}
+   * Protobuf type {@code ProductDTO}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:com.github.net.grpc.dto.ProductDTO)
+      // @@protoc_insertion_point(builder_implements:ProductDTO)
           ProductDTOOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return OrderApi.internal_static_com_github_net_grpc_ProductDTO_descriptor;
+      return OrderApi.internal_static_ProductDTO_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return OrderApi.internal_static_com_github_net_grpc_ProductDTO_fieldAccessorTable
+      return OrderApi.internal_static_ProductDTO_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               ProductDTO.class, ProductDTO.Builder.class);
     }
@@ -314,7 +314,7 @@ public  final class ProductDTO extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return OrderApi.internal_static_com_github_net_grpc_ProductDTO_descriptor;
+      return OrderApi.internal_static_ProductDTO_descriptor;
     }
 
     public ProductDTO getDefaultInstanceForType() {
@@ -512,10 +512,10 @@ public  final class ProductDTO extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:com.github.net.grpc.dto.ProductDTO)
+    // @@protoc_insertion_point(builder_scope:ProductDTO)
   }
 
-  // @@protoc_insertion_point(class_scope:com.github.net.grpc.dto.ProductDTO)
+  // @@protoc_insertion_point(class_scope:ProductDTO)
   private static final ProductDTO DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new ProductDTO();

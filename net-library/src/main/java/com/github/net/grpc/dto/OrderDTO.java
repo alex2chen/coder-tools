@@ -4,11 +4,11 @@
 package com.github.net.grpc.dto;
 
 /**
- * Protobuf type {@code com.github.net.grpc.dto.OrderDTO}
+ * Protobuf type {@code OrderDTO}
  */
 public  final class OrderDTO extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:com.github.net.grpc.dto.OrderDTO)
+    // @@protoc_insertion_point(message_implements:OrderDTO)
     OrderDTOOrBuilder {
   // Use OrderDTO.newBuilder() to construct.
   private OrderDTO(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -89,12 +89,12 @@ public  final class OrderDTO extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return OrderApi.internal_static_com_github_net_grpc_OrderDTO_descriptor;
+    return OrderApi.internal_static_OrderDTO_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return OrderApi.internal_static_com_github_net_grpc_OrderDTO_fieldAccessorTable
+    return OrderApi.internal_static_OrderDTO_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             OrderDTO.class, OrderDTO.Builder.class);
   }
@@ -205,32 +205,32 @@ public  final class OrderDTO extends
   public static final int PRODUCTS_FIELD_NUMBER = 4;
   private java.util.List<ProductDTO> products_;
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   public java.util.List<ProductDTO> getProductsList() {
     return products_;
   }
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   public java.util.List<? extends ProductDTOOrBuilder>
       getProductsOrBuilderList() {
     return products_;
   }
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   public int getProductsCount() {
     return products_.size();
   }
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   public ProductDTO getProducts(int index) {
     return products_.get(index);
   }
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   public ProductDTOOrBuilder getProductsOrBuilder(
       int index) {
@@ -408,20 +408,20 @@ public  final class OrderDTO extends
     return builder;
   }
   /**
-   * Protobuf type {@code com.github.net.grpc.dto.OrderDTO}
+   * Protobuf type {@code OrderDTO}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:com.github.net.grpc.dto.OrderDTO)
+      // @@protoc_insertion_point(builder_implements:OrderDTO)
           OrderDTOOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return OrderApi.internal_static_com_github_net_grpc_OrderDTO_descriptor;
+      return OrderApi.internal_static_OrderDTO_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return OrderApi.internal_static_com_github_net_grpc_OrderDTO_fieldAccessorTable
+      return OrderApi.internal_static_OrderDTO_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               OrderDTO.class, OrderDTO.Builder.class);
     }
@@ -461,7 +461,7 @@ public  final class OrderDTO extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return OrderApi.internal_static_com_github_net_grpc_OrderDTO_descriptor;
+      return OrderApi.internal_static_OrderDTO_descriptor;
     }
 
     public OrderDTO getDefaultInstanceForType() {
@@ -819,7 +819,7 @@ public  final class OrderDTO extends
             ProductDTO, ProductDTO.Builder, ProductDTOOrBuilder> productsBuilder_;
 
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public java.util.List<ProductDTO> getProductsList() {
       if (productsBuilder_ == null) {
@@ -829,7 +829,7 @@ public  final class OrderDTO extends
       }
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public int getProductsCount() {
       if (productsBuilder_ == null) {
@@ -839,7 +839,7 @@ public  final class OrderDTO extends
       }
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public ProductDTO getProducts(int index) {
       if (productsBuilder_ == null) {
@@ -849,7 +849,7 @@ public  final class OrderDTO extends
       }
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder setProducts(
         int index, ProductDTO value) {
@@ -866,7 +866,7 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder setProducts(
         int index, ProductDTO.Builder builderForValue) {
@@ -880,7 +880,7 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder addProducts(ProductDTO value) {
       if (productsBuilder_ == null) {
@@ -896,7 +896,7 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder addProducts(
         int index, ProductDTO value) {
@@ -913,7 +913,7 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder addProducts(
         ProductDTO.Builder builderForValue) {
@@ -927,7 +927,7 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder addProducts(
         int index, ProductDTO.Builder builderForValue) {
@@ -941,7 +941,7 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder addAllProducts(
         java.lang.Iterable<? extends ProductDTO> values) {
@@ -956,7 +956,7 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder clearProducts() {
       if (productsBuilder_ == null) {
@@ -969,7 +969,7 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public Builder removeProducts(int index) {
       if (productsBuilder_ == null) {
@@ -982,14 +982,14 @@ public  final class OrderDTO extends
       return this;
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public ProductDTO.Builder getProductsBuilder(
         int index) {
       return getProductsFieldBuilder().getBuilder(index);
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public ProductDTOOrBuilder getProductsOrBuilder(
         int index) {
@@ -999,7 +999,7 @@ public  final class OrderDTO extends
       }
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public java.util.List<? extends ProductDTOOrBuilder>
          getProductsOrBuilderList() {
@@ -1010,14 +1010,14 @@ public  final class OrderDTO extends
       }
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public ProductDTO.Builder addProductsBuilder() {
       return getProductsFieldBuilder().addBuilder(
           ProductDTO.getDefaultInstance());
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public ProductDTO.Builder addProductsBuilder(
         int index) {
@@ -1025,7 +1025,7 @@ public  final class OrderDTO extends
           index, ProductDTO.getDefaultInstance());
     }
     /**
-     * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+     * <code>repeated .ProductDTO products = 4;</code>
      */
     public java.util.List<ProductDTO.Builder>
          getProductsBuilderList() {
@@ -1056,10 +1056,10 @@ public  final class OrderDTO extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:com.github.net.grpc.dto.OrderDTO)
+    // @@protoc_insertion_point(builder_scope:OrderDTO)
   }
 
-  // @@protoc_insertion_point(class_scope:com.github.net.grpc.dto.OrderDTO)
+  // @@protoc_insertion_point(class_scope:OrderDTO)
   private static final OrderDTO DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new OrderDTO();

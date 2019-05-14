@@ -15,20 +15,20 @@ public final class OrderApi {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_com_github_net_grpc_OrderId_descriptor;
+    internal_static_OrderId_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_com_github_net_grpc_OrderId_fieldAccessorTable;
+      internal_static_OrderId_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_com_github_net_grpc_OrderDTO_descriptor;
+    internal_static_OrderDTO_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_com_github_net_grpc_OrderDTO_fieldAccessorTable;
+      internal_static_OrderDTO_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_com_github_net_grpc_ProductDTO_descriptor;
+    internal_static_ProductDTO_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_com_github_net_grpc_ProductDTO_fieldAccessorTable;
+      internal_static_ProductDTO_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -38,19 +38,15 @@ public final class OrderApi {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013order.proto\022\023com.github.net.grpc\"\025\n\007Or" +
-      "derId\022\n\n\002id\030\001 \001(\005\"m\n\010OrderDTO\022\014\n\004name\030\001 " +
-      "\001(\t\022\017\n\007address\030\002 \001(\t\022\017\n\007buyDate\030\003 \001(\t\0221\n" +
-      "\010products\030\004 \003(\0132\037.com.github.net.grpc.Pr" +
-      "oductDTO\"*\n\nProductDTO\022\n\n\002id\030\001 \001(\005\022\020\n\010pr" +
-      "odName\030\002 \001(\t2\363\001\n\014OrderService\022I\n\010getOrde" +
-      "r\022\034.com.github.net.grpc.dto.OrderId\032\035.com.gi" +
-      "thub.net.grpc.OrderDTO\"\000\022I\n\010addOrder\022\035.c" +
-      "om.github.net.grpc.OrderDTO\032\034.com.github" +
-      ".net.grpc.OrderId\"\000\022M\n\nqueryOrder\022\035.com.",
-      "github.net.grpc.OrderDTO\032\034.com.github.ne" +
-      "t.grpc.OrderId\"\0000\001B!\n\023com.github.net.grp" +
-      "cB\010OrderApiP\001b\006proto3"
+      "\n\013order.proto\"\025\n\007OrderId\022\n\n\002id\030\001 \001(\005\"Y\n\010" +
+      "OrderDTO\022\014\n\004name\030\001 \001(\t\022\017\n\007address\030\002 \001(\t\022" +
+      "\017\n\007buyDate\030\003 \001(\t\022\035\n\010products\030\004 \003(\0132\013.Pro" +
+      "ductDTO\"*\n\nProductDTO\022\n\n\002id\030\001 \001(\005\022\020\n\010pro" +
+      "dName\030\002 \001(\t2{\n\014OrderService\022!\n\010getOrder\022" +
+      "\010.OrderId\032\t.OrderDTO\"\000\022!\n\010addOrder\022\t.Ord" +
+      "erDTO\032\010.OrderId\"\000\022%\n\nqueryOrder\022\t.OrderD" +
+      "TO\032\010.OrderId\"\0000\001B!\n\023com.github.net.grpcB" +
+      "\010OrderApiP\001b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -64,23 +60,23 @@ public final class OrderApi {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_com_github_net_grpc_OrderId_descriptor =
+    internal_static_OrderId_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_com_github_net_grpc_OrderId_fieldAccessorTable = new
+    internal_static_OrderId_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_com_github_net_grpc_OrderId_descriptor,
+        internal_static_OrderId_descriptor,
         new java.lang.String[] { "Id", });
-    internal_static_com_github_net_grpc_OrderDTO_descriptor =
+    internal_static_OrderDTO_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_com_github_net_grpc_OrderDTO_fieldAccessorTable = new
+    internal_static_OrderDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_com_github_net_grpc_OrderDTO_descriptor,
+        internal_static_OrderDTO_descriptor,
         new java.lang.String[] { "Name", "Address", "BuyDate", "Products", });
-    internal_static_com_github_net_grpc_ProductDTO_descriptor =
+    internal_static_ProductDTO_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_com_github_net_grpc_ProductDTO_fieldAccessorTable = new
+    internal_static_ProductDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_com_github_net_grpc_ProductDTO_descriptor,
+        internal_static_ProductDTO_descriptor,
         new java.lang.String[] { "Id", "ProdName", });
   }
 

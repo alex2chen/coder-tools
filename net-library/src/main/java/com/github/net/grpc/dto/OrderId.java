@@ -4,11 +4,11 @@
 package com.github.net.grpc.dto;
 
 /**
- * Protobuf type {@code com.github.net.grpc.dto.OrderId}
+ * Protobuf type {@code OrderId}
  */
 public  final class OrderId extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:com.github.net.grpc.dto.OrderId)
+    // @@protoc_insertion_point(message_implements:OrderId)
     OrderIdOrBuilder {
   // Use OrderId.newBuilder() to construct.
   private OrderId(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -61,12 +61,12 @@ public  final class OrderId extends
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return OrderApi.internal_static_com_github_net_grpc_OrderId_descriptor;
+    return OrderApi.internal_static_OrderId_descriptor;
   }
 
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return OrderApi.internal_static_com_github_net_grpc_OrderId_fieldAccessorTable
+    return OrderApi.internal_static_OrderId_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
             OrderId.class, OrderId.Builder.class);
   }
@@ -219,20 +219,20 @@ public  final class OrderId extends
     return builder;
   }
   /**
-   * Protobuf type {@code com.github.net.grpc.dto.OrderId}
+   * Protobuf type {@code OrderId}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:com.github.net.grpc.dto.OrderId)
+      // @@protoc_insertion_point(builder_implements:OrderId)
           OrderIdOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return OrderApi.internal_static_com_github_net_grpc_OrderId_descriptor;
+      return OrderApi.internal_static_OrderId_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return OrderApi.internal_static_com_github_net_grpc_OrderId_fieldAccessorTable
+      return OrderApi.internal_static_OrderId_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               OrderId.class, OrderId.Builder.class);
     }
@@ -261,7 +261,7 @@ public  final class OrderId extends
 
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return OrderApi.internal_static_com_github_net_grpc_OrderId_descriptor;
+      return OrderApi.internal_static_OrderId_descriptor;
     }
 
     public OrderId getDefaultInstanceForType() {
@@ -385,10 +385,10 @@ public  final class OrderId extends
     }
 
 
-    // @@protoc_insertion_point(builder_scope:com.github.net.grpc.dto.OrderId)
+    // @@protoc_insertion_point(builder_scope:OrderId)
   }
 
-  // @@protoc_insertion_point(class_scope:com.github.net.grpc.dto.OrderId)
+  // @@protoc_insertion_point(class_scope:OrderId)
   private static final OrderId DEFAULT_INSTANCE;
   static {
     DEFAULT_INSTANCE = new OrderId();

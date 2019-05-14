@@ -4,7 +4,7 @@
 package com.github.net.grpc.dto;
 
 public interface OrderIdOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:com.github.net.grpc.dto.OrderId)
+    // @@protoc_insertion_point(interface_extends:OrderId)
     com.google.protobuf.MessageOrBuilder {
 
   /**

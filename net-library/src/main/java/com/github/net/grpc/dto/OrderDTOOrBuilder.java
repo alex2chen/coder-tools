@@ -4,7 +4,7 @@
 package com.github.net.grpc.dto;
 
 public interface OrderDTOOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:com.github.net.grpc.dto.OrderDTO)
+    // @@protoc_insertion_point(interface_extends:OrderDTO)
     com.google.protobuf.MessageOrBuilder {
 
   /**
@@ -38,25 +38,25 @@ public interface OrderDTOOrBuilder extends
       getBuyDateBytes();
 
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   java.util.List<ProductDTO>
       getProductsList();
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   ProductDTO getProducts(int index);
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   int getProductsCount();
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   java.util.List<? extends ProductDTOOrBuilder>
       getProductsOrBuilderList();
   /**
-   * <code>repeated .com.github.net.grpc.dto.ProductDTO products = 4;</code>
+   * <code>repeated .ProductDTO products = 4;</code>
    */
   ProductDTOOrBuilder getProductsOrBuilder(
       int index);

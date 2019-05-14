@@ -6,7 +6,7 @@ option java_package = "com.github.net.grpc";
 option java_outer_classname = "OrderApi";
 
 // 定义包名
-package com.github.net.grpc;
+//package com.github.net.grpc;
 
 service OrderService {
   rpc getOrder (OrderId) returns (OrderDTO) {}

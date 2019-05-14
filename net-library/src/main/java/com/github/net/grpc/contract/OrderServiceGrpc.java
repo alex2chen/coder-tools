@@ -23,7 +23,7 @@ public final class OrderServiceGrpc {
 
   private OrderServiceGrpc() {}
 
-  public static final String SERVICE_NAME = "com.github.net.grpc.OrderService";
+  public static final String SERVICE_NAME = "OrderService";
 
   // Static method descriptors that strictly reflect the proto.
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
@@ -32,7 +32,7 @@ public final class OrderServiceGrpc {
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
-              "com.github.net.grpc.OrderService", "getOrder"),
+              "OrderService", "getOrder"),
           io.grpc.protobuf.ProtoUtils.marshaller(OrderId.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(OrderDTO.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
@@ -41,7 +41,7 @@ public final class OrderServiceGrpc {
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.UNARY,
           generateFullMethodName(
-              "com.github.net.grpc.OrderService", "addOrder"),
+              "OrderService", "addOrder"),
           io.grpc.protobuf.ProtoUtils.marshaller(OrderDTO.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(OrderId.getDefaultInstance()));
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
@@ -50,7 +50,7 @@ public final class OrderServiceGrpc {
       io.grpc.MethodDescriptor.create(
           io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING,
           generateFullMethodName(
-              "com.github.net.grpc.OrderService", "queryOrder"),
+              "OrderService", "queryOrder"),
           io.grpc.protobuf.ProtoUtils.marshaller(OrderDTO.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(OrderId.getDefaultInstance()));
 
