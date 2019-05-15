@@ -34,32 +34,32 @@ public class LinkList {
         Node node2 = null;
         Node node3 = null;
         Node node4 = null;
-        Assert.assertFalse(isExistLoop(node1));
-        Assert.assertEquals(0, loopLength(node1));
-        Assert.assertEquals(null, findLoopEntrance(node1));
+        Assert.assertFalse(existRing(node1));
+        Assert.assertEquals(0, ringLength(node1));
+        Assert.assertEquals(null, findRingEntrance(node1));
 
         node1 = new Node(1);
         node2 = new Node(2);
         node3 = new Node(3);
         node1.next = node2;
         node2.next = node3;
-        Assert.assertFalse(isExistLoop(node1));
-        Assert.assertEquals(0, loopLength(node1));
-        Assert.assertEquals(null, findLoopEntrance(node1));
+        Assert.assertFalse(existRing(node1));
+        Assert.assertEquals(0, ringLength(node1));
+        Assert.assertEquals(null, findRingEntrance(node1));
 
         node1 = new Node(1);
         node1.next = node1;
-        Assert.assertTrue(isExistLoop(node1));
-        Assert.assertEquals(1, loopLength(node1));
-        Assert.assertEquals(node1, findLoopEntrance(node1));
+        Assert.assertTrue(existRing(node1));
+        Assert.assertEquals(1, ringLength(node1));
+        Assert.assertEquals(node1, findRingEntrance(node1));
 
         node1 = new Node(1);
         node2 = new Node(2);
         node1.next = node2;
         node2.next = node1;
-        Assert.assertTrue(isExistLoop(node1));
-        Assert.assertEquals(2, loopLength(node1));
-        Assert.assertEquals(node1, findLoopEntrance(node1));
+        Assert.assertTrue(existRing(node1));
+        Assert.assertEquals(2, ringLength(node1));
+        Assert.assertEquals(node1, findRingEntrance(node1));
 
         node1 = new Node(1);
         node2 = new Node(2);
@@ -67,9 +67,9 @@ public class LinkList {
         node1.next = node2;
         node2.next = node3;
         node3.next = node2;
-        Assert.assertTrue(isExistLoop(node1));
-        Assert.assertEquals(2, loopLength(node1));
-        Assert.assertEquals(node2, findLoopEntrance(node1));
+        Assert.assertTrue(existRing(node1));
+        Assert.assertEquals(2, ringLength(node1));
+        Assert.assertEquals(node2, findRingEntrance(node1));
 
         node1 = new Node(1);
         node2 = new Node(2);
@@ -79,9 +79,9 @@ public class LinkList {
         node2.next = node3;
         node3.next = node4;
         node4.next = node2;
-        Assert.assertTrue(isExistLoop(node1));
-        Assert.assertEquals(3, loopLength(node1));
-        Assert.assertEquals(node2, findLoopEntrance(node1));
+        Assert.assertTrue(existRing(node1));
+        Assert.assertEquals(3, ringLength(node1));
+        Assert.assertEquals(node2, findRingEntrance(node1));
     }
 
     /**
@@ -90,21 +90,18 @@ public class LinkList {
      * @param header
      * @return 是否存在环儿
      */
-    public static boolean isExistLoop(Node header) {
+    public static boolean existRing(Node header) {
         // 定义两个指针fast和slow,fast移动步长为2，slow移动步长为1
         Node fast = header;
         Node slow = header;
-
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
-
             //如果相遇则存在环儿，跳出
             if (fast == slow) {
                 break;
             }
         }
-
         // 根据跳出循环的条件return
         if (fast == null || fast.next == null) {
             return false;
@@ -120,9 +117,9 @@ public class LinkList {
      * @param header
      * @return 返回环儿的长度
      */
-    public static int loopLength(Node header) {
+    public static int ringLength(Node header) {
         // 如果不存在环儿，返回0
-        if (!isExistLoop(header)) {
+        if (!existRing(header)) {
             return 0;
         }
 
@@ -163,7 +160,7 @@ public class LinkList {
      * @param header
      * @return 环儿连接点
      */
-    public static Node findLoopEntrance(Node header) {
+    public static Node findRingEntrance(Node header) {
         Node fast = header;
         Node slow = header;
         while (fast != null && fast.next != null) {
@@ -278,7 +275,6 @@ public class LinkList {
         public Node(long value) {
             this.data = value;
         }
-
         /**
          * 显示方法
          */
