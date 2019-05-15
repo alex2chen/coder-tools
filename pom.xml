@@ -8,6 +8,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>design-pattern</module>
+        <module>structure-arithmetic</module>
         <module>tdd-library</module>
         <module>spring-library</module>
         <module>search-library</module>
