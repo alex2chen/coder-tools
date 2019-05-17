@@ -26,7 +26,7 @@ import java.util.concurrent.CountDownLatch;
  * write(>=4kb): FileChannel(150ms)>RandomAccessFile(83.5ms)>FileOutputStream(83ms)>MappedByteBuffer(50ms)
  * read(>=4kb):  RandomAccessFile(197ms)>FileChannel(74ms)>MappedByteBuffer(72ms)
  * <p>
- * 从测试结论上看，4kb时使用FileChannel好像不太明显啊，这是由于windows系统是不支持sendfile的（可参阅FileChannelImpl.transferTo0），所以windows下实际走的是mmap
+ * 从测试结论上看，4kb时使用FileChannel好像不太明显啊，这是由于windows系统是不支持sendfile的（可参阅FileChannelImpl.transferTo0）
  * <p>
  * writeRandomAccessFile, 32.byte ,cost：5.420 s
  * writeFileOutputStream, 32.byte ,cost：5.269 s

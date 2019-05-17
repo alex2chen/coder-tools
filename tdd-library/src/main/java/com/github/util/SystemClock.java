@@ -30,7 +30,6 @@ public interface SystemClock {
 
 class FastClockCacheLine0 {
     public volatile long p0, p1, p2, p3, p4, p5, p6, p7;
-    volatile long mills;
 }
 
 class FastClockMills extends FastClockCacheLine0 {
@@ -63,12 +62,11 @@ class FastClock extends FastClockCacheLine2 implements SystemClock {
     }
 
     private void scheduleClockUpdating() {
-        ScheduledExecutorService scheduler = Executors//
-                .newSingleThreadScheduledExecutor(runnable -> {
-                    Thread t = new Thread(runnable, "system.clock");
-                    t.setDaemon(true);
-                    return t;
-                });
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(runnable -> {
+            Thread t = new Thread(runnable, "system.clock");
+            t.setDaemon(true);
+            return t;
+        });
 
         scheduler.scheduleAtFixedRate(() -> {
             long currentTimeMillis = System.currentTimeMillis();
@@ -80,14 +78,17 @@ class FastClock extends FastClockCacheLine2 implements SystemClock {
         }, precision, precision, TimeUnit.MILLISECONDS);
     }
 
+    @Override
     public long seconds() {
         return seconds;
     }
 
+    @Override
     public long mills() {
         return mills;
     }
 
+    @Override
     public long micros() {
         return mills * 1000;
     }

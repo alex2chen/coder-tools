@@ -200,6 +200,12 @@
             <artifactId>eclipse-collections</artifactId>
             <version>9.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>classmexer</groupId>
+            <artifactId>classmexer</artifactId>
+            <version>0.03</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
