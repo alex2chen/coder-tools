@@ -11,7 +11,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * @Author: alex
  * @Description: CPU读取内存数据时并非一次只读一个字节，而是会读一段64字节长度的连续的内存块(chunks of memory)，这些块我们称之为缓存行(Cache line)。
- * 这个缓存行可以被许多线程访问。如果其中一个修改了v2，那么会导致Thread1和Thread2都会重新加载整个缓存行
+ * 伪共享指的是多个线程同时读写同一个缓存行的不同变量时导致的 CPU 缓存失效，尽管这些变量之间没有任何关系，但由于在主内存中邻近，存在于同一个缓存行之中，它们的相互覆盖会导致频繁的缓存未命中，引发性能下降。
  * @Date: created in 2017/5/17.
  */
 public class FalseSharing_unit {
@@ -20,6 +20,30 @@ public class FalseSharing_unit {
     private static PaddingValue[] padValues = new PaddingValue[MAX_THREADS];
     private static ContendedValue[] contValues = new ContendedValue[MAX_THREADS];
 
+    /**
+     * 横向遍历 cost:17.55 ms
+     * 纵向遍历 cost:61.29 ms
+     */
+    @Test
+    public void showCacheLine(){
+        long sum=0;
+        long[][] arr=new long[1024 * 1024][8];
+        Stopwatch stopWatch = Stopwatch.createStarted();
+        for (int i = 0; i < 1024 * 1024; i += 1) {
+            for (int j = 0; j < 8; j++) {
+                sum += arr[i][j];
+            }
+        }
+        System.out.printf("横向遍历 cost:%s\n",stopWatch);
+        sum=0;
+        stopWatch = Stopwatch.createStarted();
+        for (int i = 0; i < 8; i += 1) {
+            for (int j = 0; j < 1024 * 1024; j++) {
+                sum += arr[j][i];
+            }
+        }
+        System.out.printf("纵向遍历 cost:%s\n",stopWatch);
+    }
     @Test
     public void disableShareRun() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(MAX_THREADS);
@@ -76,7 +100,7 @@ public class FalseSharing_unit {
         long value = UnsafeUtils.unsafe().objectFieldOffset(DisabledSharingValue.class.getDeclaredField("value"));
         System.out.println(value);
         Assert.assertTrue(value < 64);
-        value = UnsafeUtils.unsafe().objectFieldOffset(PaddingValue.class.getDeclaredField("value"));
+        value = UnsafeUtils.unsafe().objectFieldOffset(PaddingValue0.class.getDeclaredField("value"));
         System.out.println(value);
         Assert.assertTrue(value > 64);
         value = UnsafeUtils.unsafe().objectFieldOffset(ContendedValue.class.getDeclaredField("value"));
@@ -122,11 +146,17 @@ public class FalseSharing_unit {
 
     // long padding避免false sharing
     // 按理说jdk7以后long padding应该被优化掉了，但是从测试结果看padding仍然起作用
-    public final static class PaddingValue {
-        volatile long p0, p1, p2, p3, p4, p5, p6;
-        protected volatile long value = 0;
-        volatile long q0, q1, q2, q3, q4, q5, q6;
-        protected volatile long value2;
+    public abstract class AbstractPaddingObject{
+        protected volatile long p0, p1, p2, p3, p4, p5, p6;
+    }
+    public class PaddingValue0 extends AbstractPaddingObject{
+        public volatile long value = 0;
+    }
+    public class AbstractPaddingObject2 extends PaddingValue0{
+        protected volatile long q0, q1, q2, q3, q4, q5, q6;
+    }
+    public class PaddingValue extends AbstractPaddingObject2{
+        public volatile long value2;
     }
 
     public static class PaddingValueRun extends Thread {
