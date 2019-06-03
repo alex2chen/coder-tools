@@ -3,7 +3,10 @@ coder-tools是程序员对一些新类库、新技术、新特性研究的笔记
 ## jvm-library
 - [java7特性](/jvm-library/doc/java7特性.md)
 - [java8特性](/jvm-library/doc/java8新特性.md)
-- 各种源码研究的试验场
+- ![jvm](/jvm-library/doc/JVM%20内存模型%20GC.png "")
+- ![class](/jvm-library/doc/class字节码.png "")
+- ![多线程](/jvm-library/doc/多线程并发.png "")
+
 ## design-pattern
 包含23种设计模式
 
@@ -48,6 +51,7 @@ coder-tools是程序员对一些新类库、新技术、新特性研究的笔记
 - redis-redisson
 - ehcache
 - guava Cache
+- ![redis](/cache-library/doc/Redis.png "redis")
 
 ## common-library
 - beancopy
