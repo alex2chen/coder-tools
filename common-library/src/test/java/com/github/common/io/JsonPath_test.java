@@ -1,4 +1,4 @@
-package com.github.common;
+package com.github.common.io;
 
 import com.google.common.base.Stopwatch;
 import com.jayway.jsonpath.JsonPath;

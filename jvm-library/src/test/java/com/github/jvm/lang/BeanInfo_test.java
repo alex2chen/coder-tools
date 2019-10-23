@@ -1,6 +1,5 @@
 package com.github.jvm.lang;
 
-import com.sun.beans.editors.IntegerEditor;
 import org.junit.Test;
 
 import java.beans.*;
@@ -87,6 +86,24 @@ public class BeanInfo_test {
 
         public void setAge(int age) {
             this.age = age;
+        }
+    }
+    public abstract class NumberEditor extends PropertyEditorSupport {
+        public NumberEditor() {
+        }
+
+        public String getJavaInitializationString() {
+            Object var1 = this.getValue();
+            return var1 != null ? var1.toString() : "null";
+        }
+    }
+
+    public class IntegerEditor extends NumberEditor {
+        public IntegerEditor() {
+        }
+
+        public void setAsText(String var1) throws IllegalArgumentException {
+            this.setValue(var1 == null ? null : Integer.decode(var1));
         }
     }
 
