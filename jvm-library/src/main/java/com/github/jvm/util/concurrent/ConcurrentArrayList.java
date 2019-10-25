@@ -3,6 +3,7 @@ package com.github.jvm.util.concurrent;
 import com.github.jvm.util.UnsafeUtils;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.RandomAccess;
 
 /**
@@ -42,7 +43,15 @@ public class ConcurrentArrayList<T> implements RandomAccess {
         int index = insertIndex();
         set(index, value);
     }
-
+    public void addAll(Collection<T> collection) {
+        if (collection == null) {
+            return;
+        }
+        ensureCapacity(size + collection.size());
+        for (T t : collection) {
+            add(t);
+        }
+    }
     private int insertIndex() {
         int index = UnsafeUtils.unsafe().getAndAddInt(this, SIZE_OFFSET, 1);
         ensureCapacity(index + 1);

@@ -2,15 +2,15 @@ package com.github.common.bean;
 
 import com.esotericsoftware.reflectasm.MethodAccess;
 import com.github.common.bean.vo.FromBean;
+import com.github.common.reflect.ClassUtil;
+import com.github.common.reflect.FastMethodInvoker;
 import com.github.jvm.util.UnsafeUtils;
 import net.sf.cglib.reflect.FastClass;
-import net.sf.cglib.reflect.FastMethod;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.springside.modules.utils.reflect.FastMethodInvoker;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -49,32 +49,22 @@ public class ReflectBenchmark {
     private FromBean fromBean = new FromBean();
     private String methodName = "getDirectAge";
 
-    private Field jdkAgeField;
-    private Method jdkAgeMethod;
+    private Field jdkAgeField = ClassUtil.getAccessibleField(FromBean.class, "age");
+    private Method jdkAgeMethod = ClassUtil.getAccessibleMethod(FromBean.class, methodName, long.class);
+    private long jdkAgeFieldOffset = UnsafeUtils.unsafe().objectFieldOffset(jdkAgeField);
     private MethodHandle jdkAgeMethodHandle;
-    private long jdkAgeFieldOffset;
-
-    private FastClass cglibFastClass = FastClass.create(FromBean.class);
-    private FastMethod cgligFastMethod;
-    private MethodAccess asmMethodAccess = MethodAccess.get(FromBean.class);
-    private int asmMethodIndex;
     /**
-     * 基于cglib，通过代码生成实现最快速的反射调用 https://github.com/springside/springside4/wiki
+     * 基于cglib
      */
-    private FastMethodInvoker fastMethodInvoker;
+    private FastMethodInvoker cgligFastMethod = FastMethodInvoker.create(FromBean.class, methodName, long.class);
+    private MethodAccess asmClz = MethodAccess.get(FromBean.class);
+    private int asmMethodIndex = asmClz.getIndex(methodName, long.class);
 
     public ReflectBenchmark() {
         try {
-            jdkAgeField = FromBean.class.getDeclaredField("age");
-            jdkAgeField.setAccessible(true);
-            jdkAgeMethod = FromBean.class.getDeclaredMethod(methodName, long.class);
+            //jdkAgeField.setAccessible(true);
             jdkAgeMethodHandle = MethodHandles.publicLookup().findVirtual(FromBean.class, methodName, MethodType.methodType(int.class, long.class));
-            jdkAgeFieldOffset = UnsafeUtils.unsafe().objectFieldOffset(jdkAgeField);
-
-            cgligFastMethod = cglibFastClass.getMethod(jdkAgeMethod);
-            asmMethodIndex = asmMethodAccess.getIndex(methodName, long.class);
             //System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY, "target\\class");
-            fastMethodInvoker = FastMethodInvoker.create(FromBean.class, methodName, long.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,8 +121,8 @@ public class ReflectBenchmark {
 
     @Benchmark
     @Fork(1)
-    public int jdkAgeFieldOffset() {
-        return UnsafeUtils.unsafe().getInt(fromBean, jdkAgeFieldOffset);
+    public Object jdkAgeFieldOffset() {
+        return UnsafeUtils.unsafe().getObject(fromBean, jdkAgeFieldOffset);
     }
 
     @Benchmark
@@ -144,13 +134,13 @@ public class ReflectBenchmark {
     @Benchmark
     @Fork(1)
     public int asmMethodAccess() {
-        return (int) asmMethodAccess.invoke(fromBean, asmMethodIndex, 23L);
+        return (int) asmClz.invoke(fromBean, asmMethodIndex, 23L);
     }
 
     @Benchmark
     @Fork(1)
     public int fastMethodInvoker() {
-        return (int) fastMethodInvoker.invoke(fromBean, 23L);
+        return (int) cgligFastMethod.invoke(fromBean, 23L);
     }
 
     public static void main(String[] args) throws RunnerException {

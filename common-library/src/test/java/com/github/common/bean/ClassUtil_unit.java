@@ -2,8 +2,8 @@ package com.github.common.bean;
 
 import com.github.common.reflect.AnnotationUtil;
 import com.github.common.reflect.ClassUtil;
-import com.github.common.reflect.ReflectionUtil;
 import org.junit.Test;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -42,32 +42,32 @@ public class ClassUtil_unit {
         assertThat(AnnotationUtil.getAllAnnotations(BClass.class)).hasSize(4);
 
         assertThat(AnnotationUtil.getAnnotatedPublicFields(BClass.class, AAnnotation.class)).hasSize(2).contains(
-                ReflectionUtil.getField(BClass.class, "sfield"), ReflectionUtil.getField(BClass.class, "tfield"));
+                ClassUtil.getAccessibleField(BClass.class, "sfield"), ClassUtil.getAccessibleField(BClass.class, "tfield"));
 
         assertThat(AnnotationUtil.getAnnotatedFields(BClass.class, EAnnotation.class)).hasSize(3).contains(
-                ReflectionUtil.getField(BClass.class, "bfield"), ReflectionUtil.getField(BClass.class, "efield"),
-                ReflectionUtil.getField(AClass.class, "afield"));
+                ClassUtil.getAccessibleField(BClass.class, "bfield"), ClassUtil.getAccessibleField(BClass.class, "efield"),
+                ClassUtil.getAccessibleField(AClass.class, "afield"));
 
         assertThat(AnnotationUtil.getAnnotatedFields(BClass.class, FAnnotation.class)).hasSize(1)
-                .contains(ReflectionUtil.getField(AClass.class, "dfield"));
+                .contains(ClassUtil.getAccessibleField(AClass.class, "dfield"));
 
         assertThat(AnnotationUtil.getAnnotatedPublicMethods(BClass.class, FAnnotation.class)).hasSize(3).contains(
-                ReflectionUtil.getAccessibleMethodByName(BClass.class, "hello"),
-                ReflectionUtil.getAccessibleMethodByName(BClass.class, "hello3"),
-                ReflectionUtil.getAccessibleMethodByName(AClass.class, "hello4"));
+                ClassUtil.getAccessibleMethodByName(BClass.class, "hello"),
+                ClassUtil.getAccessibleMethodByName(BClass.class, "hello3"),
+                ClassUtil.getAccessibleMethodByName(AClass.class, "hello4"));
     }
 
     @Test
     public void getSuperClassGenericType() {
         // 获取第1，2个泛型类型
-        assertThat(ClassUtil.getClassGenericType(TestBean.class)).isEqualTo(String.class);
-        assertThat(ClassUtil.getClassGenericType(TestBean.class, 1)).isEqualTo(Long.class);
+        assertThat(ClassUtil.getClassGenricType(TestBean.class)).isEqualTo(String.class);
+        assertThat(ClassUtil.getClassGenricType(TestBean.class, 1)).isEqualTo(Long.class);
 
         // 定义父类时无泛型定义
-        assertThat(ClassUtil.getClassGenericType(TestBean2.class)).isEqualTo(Object.class);
+        assertThat(ClassUtil.getClassGenricType(TestBean2.class)).isEqualTo(Object.class);
 
         // 无父类定义
-        assertThat(ClassUtil.getClassGenericType(TestBean3.class)).isEqualTo(Object.class);
+        assertThat(ClassUtil.getClassGenricType(TestBean3.class)).isEqualTo(Object.class);
     }
 
     @Test

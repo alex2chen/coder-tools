@@ -1,11 +1,15 @@
 package com.github.common;
 
 import com.codahale.metrics.*;
+import com.codahale.metrics.Timer;
+import com.github.common.metrics.support.JmxExporter;
 import org.junit.Test;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -92,6 +96,34 @@ public class Metrics_unit {
             Thread.sleep(random.nextInt(1000));
             ctx.stop();
         }
+    }
+
+    @Test
+    public void jmxExample() throws InterruptedException, Exception {
+
+        MetricRegistry metricRegistry = new MetricRegistry();
+
+        Counter counter = metricRegistry.counter(MetricRegistry.name("UserService", "getUser.counter"));
+        // 无reporter，only exporter
+        JmxExporter jmxExporter = new JmxExporter("metrics-example", metricRegistry);
+        jmxExporter.initMBeans();
+
+        ConsoleReporter scheduler = ConsoleReporter.forRegistry(metricRegistry).build();
+        scheduler.start(1, TimeUnit.SECONDS);
+        counter.inc();
+
+        Thread.sleep(950);
+
+        counter.inc(2);
+        Thread.sleep(1050);
+        scheduler.stop();
+
+        // 校验MBean中的值
+        MBeanServer mBeanServer = ManagementFactory.getPlatformMBeanServer();
+
+        System.out.println("TotalCount from MBean:" + mBeanServer
+                .getAttribute(new ObjectName("metrics-example", "name", "UserServicegetUser.counter"), "TotalCount")
+                .toString());
     }
 
     public void request(Meter meter) {

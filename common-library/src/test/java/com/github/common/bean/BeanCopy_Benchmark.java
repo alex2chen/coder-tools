@@ -1,6 +1,7 @@
 package com.github.common.bean;
 
 import com.github.common.bean.vo.FromBean;
+import com.github.common.reflect.BeanMapper;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import org.junit.Before;
@@ -17,13 +18,14 @@ import java.util.concurrent.TimeUnit;
  * @author alex.chen
  * @Description: JMH参阅: HexBenchmark
  * 性能大比拼:
- * Benchmark                             Mode  Cnt       Score   Units
- * BeanCopy_Benchmark.directCopy        thrpt    3  359135.157  ops/ms
- * BeanCopy_Benchmark.springBeanCopier  thrpt    3  357654.895  ops/ms
- * BeanCopy_Benchmark.cglibBeanCopier   thrpt    3  352030.125  ops/ms
- * BeanCopy_Benchmark.springBeanUtil    thrpt    3   14870.658  ops/ms
- * BeanCopy_Benchmark.propertyUtil      thrpt    3    1172.622  ops/ms
- * BeanCopy_Benchmark.beanUtil          thrpt    3     579.760  ops/ms
+ * Benchmark                             Mode  Cnt       Score        Error   Units
+ * BeanCopy_Benchmark.springBeanCopier  thrpt    3  551269.796 ±  59101.189  ops/ms
+ * BeanCopy_Benchmark.directCopy        thrpt    3  544069.381 ± 153786.138  ops/ms
+ * BeanCopy_Benchmark.cglibBeanCopier   thrpt    3  540018.482 ± 139613.732  ops/ms
+ * BeanCopy_Benchmark.springBeanUtil    thrpt    3   13729.871 ±   4267.950  ops/ms
+ * BeanCopy_Benchmark.orikaBeanCopier   thrpt    3    1981.385 ±    815.316  ops/ms
+ * BeanCopy_Benchmark.propertyUtil      thrpt    3    1096.670 ±    997.054  ops/ms
+ * BeanCopy_Benchmark.beanUtil          thrpt    3     694.451 ±    664.256  ops/ms
  * @date 2017/4/27
  */
 @State(Scope.Benchmark)
@@ -39,6 +41,7 @@ public class BeanCopy_Benchmark {
     private IMethodCallBack springBeanUtil;
     private IMethodCallBack springBeanCopier;
     private IMethodCallBack cglibBeanCopier;
+    private IMethodCallBack orikaBeanCopier;
 
     public BeanCopy_Benchmark() {
         fromBean.setAddress("北京市朝阳区大屯路");
@@ -116,7 +119,18 @@ public class BeanCopy_Benchmark {
                 return toBean;
             }
         };
+        orikaBeanCopier = new IMethodCallBack() {
+            @Override
+            public String getMethodName() {
+                return "ma.glasnost.orika.MapperFacade";
+            }
 
+            @Override
+            public FromBean callMethod(FromBean frombean) throws Exception {
+                FromBean toBean = BeanMapper.map(frombean, FromBean.class);
+                return toBean;
+            }
+        };
     }
 
     @Benchmark
@@ -159,6 +173,12 @@ public class BeanCopy_Benchmark {
     @Fork(1)
     public void cglibBeanCopier() throws Exception {
         cglibBeanCopier.callMethod(fromBean);
+    }
+
+    @Benchmark
+    @Fork(1)
+    public void orikaBeanCopier() throws Exception {
+        orikaBeanCopier.callMethod(fromBean);
     }
 
     public static void main(String[] args) throws RunnerException {
