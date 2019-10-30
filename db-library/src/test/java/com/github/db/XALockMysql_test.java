@@ -19,6 +19,8 @@ import java.sql.SQLException;
  * @Date: created in 2017/4/11.
  */
 public class XALockMysql_test extends MysqlJdbcTemplate {
+    private String username = "root";
+    private String password = "123456";
     private String url = "jdbc:mysql://localhost:3306/batch";
     private String sqlSelect = "SELECT * FROM employee WHERE empid=?";
     private String sqlSelectXL = "SELECT * FROM employee WHERE empid=? for UPDATE";
@@ -35,7 +37,7 @@ public class XALockMysql_test extends MysqlJdbcTemplate {
 
     @Test
     public void xlock_run() throws InterruptedException {
-        execute(url, connection -> {
+        execute(getConnection(url, username, password), connection -> {
             try {
                 connection.setAutoCommit(false);//开启事物，for UPDATE一定要开启，否则自动就提交了（那样就没意义了）
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectXL);
@@ -56,7 +58,7 @@ public class XALockMysql_test extends MysqlJdbcTemplate {
     @Test
     public void select() throws SQLException, InterruptedException {
         //普通读（多版本读）以及是否添加了事物，任何锁都不影响的
-        execute(url, connection -> {
+        execute(getConnection(url, username, password), connection -> {
             try {
                 connection.setAutoCommit(false);
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlSelect);
@@ -75,7 +77,7 @@ public class XALockMysql_test extends MysqlJdbcTemplate {
     @Test
     public void slock_run() throws InterruptedException {
         //与xlock（排他锁）不兼容
-        execute(url, connection -> {
+        execute(getConnection(url, username, password), connection -> {
             try {
                 connection.setAutoCommit(false);//不要忘了
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlSelectSL);
@@ -94,7 +96,7 @@ public class XALockMysql_test extends MysqlJdbcTemplate {
         //与xlock（排他锁）不兼容
         //与slock（共享锁）不兼容
         //注意：它与xlock的那个Connection，不是同一个，如果是同一个Connection可以更新，这点很重要，分布式锁就是这么设计的。
-        execute(url, connection -> {
+        execute(getConnection(url, username, password), connection -> {
             try {
                 update(connection);
             } catch (SQLException ex) {

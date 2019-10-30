@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * @Author: alex
@@ -16,29 +17,30 @@ public class MysqlJdbcTemplate {
             String driverName = "com.mysql.jdbc.Driver";
             Class.forName(driverName);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    private Connection getConnection(String url) throws SQLException {
-        String username = "root";
-        String password = "123456";
-        return DriverManager.getConnection(url, username, password);
-    }
-
-    public void execute(String url, Consumer<Connection> consumer) {
-        execute(url, consumer, true);
-    }
-
-    public void execute(String url, Consumer<Connection> consumer, boolean isClose) {
+    protected Connection getConnection(String url, String username, String password) {
         try {
-            Connection connection = getConnection(url);
+            return DriverManager.getConnection(url, username, password);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void execute(Supplier<Connection> connection, Consumer<Connection> consumer) {
+        execute(connection.get(), consumer, true);
+    }
+
+    public void execute(Connection connection, Consumer<Connection> consumer, boolean isClose) {
+        try {
             consumer.accept(connection);
             if (isClose) {
                 connection.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

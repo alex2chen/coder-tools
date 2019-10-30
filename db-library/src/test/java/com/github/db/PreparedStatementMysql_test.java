@@ -2,10 +2,8 @@ package com.github.db;
 
 import com.github.db.mysql.MysqlJdbcTemplate;
 import com.google.common.base.Stopwatch;
-import com.mysql.jdbc.Connection;
 import org.junit.Test;
 
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Random;
@@ -16,6 +14,8 @@ import java.util.Random;
  * @Date: created in 2017/4/11.
  */
 public class PreparedStatementMysql_test extends MysqlJdbcTemplate {
+    private String username = "root";
+    private String password = "123456";
     private String url = "jdbc:mysql://localhost:3306/batch";
     private String sql = "SELECT * FROM export_request WHERE id = ?";
     private String sql2 = "SELECT * FROM export_request FORCE INDEX (idx_file_name) WHERE id = ? AND file_name='xxx'";
@@ -24,7 +24,7 @@ public class PreparedStatementMysql_test extends MysqlJdbcTemplate {
     @Test
     public void simple_run() {
         Stopwatch stopwatch = Stopwatch.createStarted();
-        execute(url, connection -> {
+        execute(() -> getConnection(url, username, password), connection -> {
             try {
                 for (int i = 0; i < maxTimes; i++) {
                     PreparedStatement stmt = connection.prepareStatement(sql);
@@ -42,7 +42,7 @@ public class PreparedStatementMysql_test extends MysqlJdbcTemplate {
     @Test
     public void useServerPrepStmts_run() throws SQLException, ClassNotFoundException {
         Stopwatch stopwatch = Stopwatch.createStarted();
-        execute(url + "?useServerPrepStmts=true", connection -> {
+        execute(() -> getConnection(url + "?useServerPrepStmts=true", username, password), connection -> {
             try {
                 for (int i = 0; i < maxTimes; i++) {
                     PreparedStatement stmt = connection.prepareStatement(sql);
@@ -60,7 +60,7 @@ public class PreparedStatementMysql_test extends MysqlJdbcTemplate {
     @Test
     public void useServerPrepStmtsAndcachePrepStmts_run() throws SQLException, ClassNotFoundException {
         Stopwatch stopwatch = Stopwatch.createStarted();
-        execute(url + "?useServerPrepStmts=true&cachePrepStmts=true", connection -> {
+        execute(() -> getConnection(url + "?useServerPrepStmts=true&cachePrepStmts=true", username, password), connection -> {
             try {
                 for (int i = 0; i < maxTimes; i++) {
                     PreparedStatement stmt = connection.prepareStatement(sql);

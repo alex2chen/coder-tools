@@ -9,6 +9,7 @@ import com.google.common.hash.Hashing;
 import io.netty.buffer.ByteBuf;
 import javassist.*;
 import org.junit.Test;
+import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
