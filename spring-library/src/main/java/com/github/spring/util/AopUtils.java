@@ -24,7 +24,7 @@ public class AopUtils {
             , "javassist.util.proxy.ProxyObject"
             // javassist
             , "org.apache.ibatis.javassist.util.proxy.ProxyObject");
-
+    private static final String PROXY_JDK_Name="com.sun.proxy.$Proxy";
     public static boolean isProxy(Class<?> clazz) {
         if (clazz != null) {
             for (Class<?> cls : clazz.getInterfaces()) {
@@ -32,6 +32,12 @@ public class AopUtils {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+    public static boolean isJdkProxy(Class<?> clazz) {
+        if (clazz != null) {
+            return clazz.getName().startsWith(PROXY_JDK_Name);
         }
         return false;
     }

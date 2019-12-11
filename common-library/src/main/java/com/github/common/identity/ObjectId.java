@@ -27,9 +27,6 @@ import static sun.misc.Unsafe.ARRAY_BYTE_BASE_OFFSET;
  * @Date: created in 2018/5/14.
  */
 public final class ObjectId implements Serializable {
-
-    private static final long serialVersionUID = -3433285147990005311L;
-
     private static final int LOW_ORDER_THREE_BYTES = 0x00FFFFFF;
 
     public final static long OFFSET_SECONDS = LocalDateTime.parse("2018-01-01T00:00:00").toEpochSecond(UTC);
