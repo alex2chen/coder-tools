@@ -1,0 +1,15 @@
+package $!{package};
+import com.github.demo.service.BaseService;
+import com.github.demo.domain.$!{className};
+public interface $!{className}Service  extends BaseService<$!{className}>{
+
+#foreach($index in ${uniqueIndex.keySet()})
+    public Boolean deleteByUniqueIndex#foreach($field in ${uniqueIndex.get($index)})$!{field.propertyName}#end(#foreach($field in ${uniqueIndex.get($index)})$!{field.javaType} $!{field.propertyName}  #if(${uniqueIndex.get($index).size()}!=$velocityCount),#end#end);
+#end
+
+
+#foreach($index in ${commonIndex.keySet()})
+    public Boolean deleteByCommonIndex#foreach($field in ${commonIndex.get($index)})$!{field.propertyName}#end(#foreach($field in ${commonIndex.get($index)})$!{field.javaType} $!{field.propertyName} #if(${commonIndex.get($index).size()}!=$velocityCount),#end#end);
+#end
+
+}

@@ -1,0 +1,37 @@
+package $!{package};
+import $!{importBean};
+import java.util.List;
+import com.github.demo.util.PageQuery;
+import com.github.demo.util.Query;
+
+public interface $!{className}Mapper{
+
+     public List<$!{className}> findAll();
+
+     public long findCount();
+
+     public List<$!{className}> queryBySelective(Query<$!{className}> $!{instName});
+
+     public long queryCountBySelective(Query<$!{className}> $!{instName});
+     
+     public $!{className} queryByPrimaryKey($!{pkType} $!{pkname});
+
+     public int deleteByPrimaryKey($!{pkType} $!{pkname});
+ 
+     public int updateByPrimaryKeySelective($!{className} $!{instName});
+
+     public $!{pkType} save($!{className} $!{instName});
+
+     public List<$!{className}> queryBySelectiveForPagination(PageQuery<$!{className}> $!{instName});
+
+     public long queryCountBySelectiveForPagination(PageQuery<$!{className}> $!{instName});
+
+    #foreach($index in ${uniqueIndex.keySet()})
+    public int deleteByUniqueIndex#foreach($field in ${uniqueIndex.get($index)})$!{field.propertyName}#end($!{className} $!{instName});
+    #end
+
+
+    #foreach($index in ${commonIndex.keySet()})
+    public int deleteByCommonIndex#foreach($field in ${commonIndex.get($index)})$!{field.propertyName}#end($!{className} $!{instName});
+    #end
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "request": {
+      "uri": "/hello"
+    },
+    "response": {
+      "text": "hello world."
+    }
+  },
+  {
+    "request": {
+      "uri": "/esb",
+      "method": "post",
+      "json_paths": {
+        "$.header.serviceCode": "OMS_S_00320"
+      }
+    },
+    "response": {
+      "proxy": {
+        "url": "http://192.168.2.65:29998/esb",
+        "failover": "failover.json"
+      }
+    }
+  },
+  {
+    "request": {
+      "uri": "/getJson",
+      "method": "get"
+    },
+    "response": {
+      "status": 200,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "json": {
+        "foo": "bar"
+      }
+    }
+  }
+]

@@ -1,0 +1,16 @@
+#https://plugins.jetbrains.com/plugin/13121-http-client
+
+#http-method Supports GET, POST, PUT, DELETE, PATCH
+GET http://apis.baidu.com/apistore/weatherservice/citylist?cityname=%E6%9C%9D%E9%98%B3
+#url
+#request paramter
+#&param=value
+
+#http-header
+@Content-type: application/json
+#request body
+#{"name":"john"}
+
+%%%
+
+###

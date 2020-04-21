@@ -1,0 +1,60 @@
+<%@ page language="java"  pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<form class="form-inline" role="form" id="query$!{className}Form">
+    <table class="table  table-hover" style="width: 40%"><tr>
+        #foreach($field in $fields)
+            #if($field.propertyName!=$pkname)
+                #if($!{excludeFieldsMap.contains($field.propertyName)}!=$field.propertyName)
+                <td><input type="text" name="$!field.propertyName"   placeholder="$!field.comment"   class="form-control" value="${${parameterMap}.$!field.propertyName$!arr0}"/></td>
+                #end
+            #end
+        #end
+        <td>
+            <input type="button"   class="btn  btn-warning" value="查询"   action='get'
+                   requestUrl='/$!{instName}/list'  method="submit" handler="query$!{className}"/>
+        </td>
+    </tr>
+    </table>
+</form>
+共<c:out value="${count}" />条数据
+<br>
+<table class="table table-bordered table-hover">
+    <thead><tr>
+
+        #foreach($field in $fields)
+            #if($field.propertyName!=$pkname)
+                #if($!{excludeFieldsMap.contains($field.propertyName)}!=$field.propertyName)
+                <th >$!field.comment</th>
+                    #end
+            #end
+        #end
+        <th >操作</th>
+    </tr>
+    </tr>
+    </thead>
+    <tbody>
+
+    <c:forEach var="${result}" items="${$!{instName}List}" varStatus="status">
+        <tr>
+
+            #foreach($field in $fields)
+                #if($field.propertyName!=$pkname)
+                    #if($!{excludeFieldsMap.contains($field.propertyName)}!=$field.propertyName)
+                    <td class="col-lg-1">${${result}.$!field.propertyName} </td>
+                        #end
+                #end
+            #end
+
+
+            <td class="col-lg-1">
+                <input type="button"   class="btn  btn-warning" value="编辑"   action='get'
+                       requestUrl='/$!{instName}/toEdit?id=${result.id}'  method="submit" handler="toEdit$!{className}"/>
+            </td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+
+<jsp:include page="../../common/page.jsp"></jsp:include>

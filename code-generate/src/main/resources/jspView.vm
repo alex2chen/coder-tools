@@ -1,0 +1,10 @@
+
+#foreach($field in $fields)
+    
+ <tr>
+     <td class="col-lg-1">$!field.comment</td>
+     <td><input type="text" name="$!field.propertyName" class="form-control"/>
+  </td>
+
+  </tr>	
+#end

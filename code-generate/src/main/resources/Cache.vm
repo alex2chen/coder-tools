@@ -1,0 +1,117 @@
+package $!{package};
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
+import com.github.insurance.item.contract.admin.$!{className}Resource;
+import com.github.insurance.item.contract.result.ListResult;
+import com.github.insurance.item.contract.vo.$!{className}Vo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+import com.github.demo.cache.impl.CacheImpl;
+
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Service("$!{instName}Cache")
+public class $!{className}Cache  extends CacheImpl {
+private final static Logger log = LoggerFactory.getLogger($!{className}Cache.class);
+    @Resource(name = "$!{instName}Resource")
+    private $!{className}Resource $!{instName}Resource;
+
+#if(${uniqueIndex})
+    #foreach($uniqKey in ${uniqueIndex.keySet()})
+    public Map<${uniqueIndex.get($uniqKey).get(0).javaType}, $!{className}Vo> $!{instName}_uq_${uniqueIndex.get($uniqKey).get(0).propertyName}_Map =  new HashMap<${uniqueIndex.get($uniqKey).get(0).javaType}, $!{className}Vo>();
+    #end
+#end
+
+#if(${commonIndex})
+    #foreach($indexKey in ${commonIndex.keySet()})
+    public Multimap<${commonIndex.get($indexKey).get(0).javaType}, $!{className}Vo> $!{instName}_index_${commonIndex.get($indexKey).get(0).propertyName}_MultiMap = ArrayListMultimap.create();
+    #end
+ #end
+
+@PostConstruct
+public void init() {
+    Thread thread = new Thread(new Runnable() {
+        public void run() {
+        Boolean requestFlag = true;
+        for(;;){//添加循环目的:知道加载第三方资源成功，才关闭这个线程。因为如果在本系统启动时，第三方系统有问题，但本系统照样启动，
+        // 启动后仍然轮询第三方系统，知道加载资源成功。
+        try {
+                ListResult<$!{className}Vo> $!{instName}VoListResult =  $!{instName}Resource.listAll();
+
+    #if(${uniqueIndex})
+        #foreach($uniqKey in ${uniqueIndex.keySet()})
+                Map<${uniqueIndex.get($uniqKey).get(0).javaType}, $!{className}Vo> $!{instName}_uq_${uniqueIndex.get($uniqKey).get(0).propertyName}_Map1 =  new HashMap<${uniqueIndex.get($uniqKey).get(0).javaType}, $!{className}Vo>();
+        #end
+    #end
+
+    #if(${commonIndex})
+        #foreach($indexKey in ${commonIndex.keySet()})
+                Multimap<${commonIndex.get($indexKey).get(0).javaType}, $!{className}Vo> $!{instName}_index_${commonIndex.get($indexKey).get(0).propertyName}_MultiMap1 = ArrayListMultimap.create();
+        #end
+    #end
+
+        for($!{className}Vo $!{instName}Vo:$!{instName}VoListResult.getValues()){
+
+            #if(${uniqueIndex})
+                #foreach($uniqKey in ${uniqueIndex.keySet()})
+                $!{instName}_uq_${uniqueIndex.get($uniqKey).get(0).propertyName}_Map1.put($!{instName}Vo.${uniqueIndex.get($uniqKey).get(0).getGetterName()}(),$!{instName}Vo);
+            #end
+        #end
+
+        #if(${commonIndex})
+        #foreach($indexKey in ${commonIndex.keySet()})
+            $!{instName}_index_${commonIndex.get($indexKey).get(0).propertyName}_MultiMap1.put($!{instName}Vo.${commonIndex.get($indexKey).get(0).getGetterName()}(),$!{instName}Vo);
+        #end
+        #end
+      }
+    #if(${uniqueIndex})
+        #foreach($uniqKey in ${uniqueIndex.keySet()})
+            $!{instName}_uq_${uniqueIndex.get($uniqKey).get(0).propertyName}_Map =  $!{instName}_uq_${uniqueIndex.get($uniqKey).get(0).propertyName}_Map1;
+        #end
+    #end
+
+    #if(${commonIndex})
+        #foreach($indexKey in ${commonIndex.keySet()})
+            $!{instName}_index_${commonIndex.get($indexKey).get(0).propertyName}_MultiMap = $!{instName}_index_${commonIndex.get($indexKey).get(0).propertyName}_MultiMap1;
+        #end
+    #end
+                    requestFlag = true;
+                } catch (Exception e) {
+                        log.error("请求商品服务系统异常:", e);
+                        requestFlag = false;
+                        try {
+                            Thread.sleep(5000l);
+                        } catch (InterruptedException e1) {
+                            e1.printStackTrace();
+                        }
+                    } finally {
+                        if (requestFlag) {
+                        break;
+                        }
+                    }
+                }
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+
+    @Override
+    public void reload() {
+        //super.clearAll(this);
+         this.init();
+    }
+
+}

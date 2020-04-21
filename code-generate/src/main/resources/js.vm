@@ -1,0 +1,28 @@
+   me.handler={
+       callbacks:{
+   #if(${param})
+   #foreach($map in $param)
+           query$!{map.get('className')}:function(data){
+           $('#content').html(data);
+           },
+           toEdit$!{map.get('className')}:function(data){
+           $('#content').html(data);
+           },
+   #end
+   #end
+       },
+       callPara:{
+
+   #if(${param})
+   #foreach($map in $param)
+       query$!{map.get('className')}:function(){
+           var paraData = $('#query$!{map.get('className')}Form').serialize();
+           return paraData;
+       },
+       toEdit$!{map.get('className')}:function(){
+         return "";
+       },
+   #end
+   #end
+   }
+   }

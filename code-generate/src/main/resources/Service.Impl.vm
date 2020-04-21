@@ -1,0 +1,183 @@
+package $!{package};
+import $!{importService};
+import $!{importBean};
+import $!{importMapper};
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import com.github.demo.util.PageQuery;
+import com.github.demo.util.Query;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import com.github.demo.util.ErpException;
+import org.springframework.dao.DuplicateKeyException;
+@Service("$!{instName}Service")
+public class $!{className}ServiceImpl implements $!{className}Service{
+
+    private static final Logger logger = LoggerFactory.getLogger($!{className}ServiceImpl.class);
+    @Autowired
+    private $!{className}Mapper $!{instName}Mapper;
+
+     public List<$!{className}> findAll(){
+	    List<$!{className}> $!{instName}List = $!{instName}Mapper.findAll();
+        return $!{instName}List;
+     }
+
+     public Long findCount(){
+	Long count = $!{instName}Mapper.findCount();
+        return count;
+     }
+
+     public List<$!{className}> queryBySelective(Query<$!{className}> $!{instName}){
+	List<$!{className}> $!{instName}List = $!{instName}Mapper.queryBySelective($!{instName});
+        return $!{instName}List;
+     }
+
+     public Long queryCountBySelective(Query<$!{className}> $!{instName}){
+	Long count = $!{instName}Mapper.queryCountBySelective($!{instName});
+        return count;
+     }
+
+     public $!{className} queryByPrimaryKey($!{pkType} $!{pkname}){
+     	$!{className} $!{instName} = $!{instName}Mapper.queryByPrimaryKey($!{pkname});
+        return $!{instName};
+     }
+
+     public Boolean deleteByPrimaryKey($!{pkType} $!{pkname}){
+     	int result = $!{instName}Mapper.deleteByPrimaryKey($!{pkname});
+        return result == 0 ? false : true;
+
+     }
+
+     public Boolean updateByPrimaryKeySelective($!{className} $!{instName}){
+       	int result = $!{instName}Mapper.updateByPrimaryKeySelective($!{instName});
+        return result == 0 ? false : true;
+     }
+
+     public Boolean save($!{className} $!{instName}) throws Exception{
+        try{
+            $!{pkType} id = $!{instName}Mapper.save($!{instName});
+            return  id == 0 ? false : true;
+        }catch (Exception e){
+            if(e instanceof DuplicateKeyException){
+            ErpException erpException = new ErpException("","请检查是否唯一");
+            e = erpException;
+        }
+          throw  e;
+        }
+     }
+
+     public List<$!{className}> queryBySelectiveForPagination(PageQuery<$!{className}> $!{instName}){
+	    List<$!{className}> $!{instName}List = $!{instName}Mapper.queryBySelective($!{instName});
+        return $!{instName}List;
+     }
+
+     public Long queryCountBySelectiveForPagination(Query<$!{className}> $!{instName}){
+	Long count = $!{instName}Mapper.queryCountBySelective($!{instName});
+        return count;
+     }
+
+
+    #foreach($index in ${uniqueIndex.keySet()})
+    public Boolean deleteByUniqueIndex#foreach($field in ${uniqueIndex.get($index)})$!{field.propertyName}#end(#foreach($field in ${uniqueIndex.get($index)})$!{field.javaType} $!{field.propertyName}  #if(${uniqueIndex.get($index).size()}!=$velocityCount),#end#end){
+        $!{className} $!{instName}  = new $!{className}();
+        #foreach($field in ${uniqueIndex.get($index)})
+            $!{instName}.$!{field.setterName}($!{field.propertyName});
+        #end
+       int result = $!{instName}Mapper.deleteByUniqueIndex#foreach($field in ${uniqueIndex.get($index)})$!{field.propertyName}#end($!{instName});
+       return result == 0 ? false : true;
+    }
+    #end
+
+
+    #foreach($index in ${commonIndex.keySet()})
+    public Boolean deleteByCommonIndex#foreach($field in ${commonIndex.get($index)})$!{field.propertyName}#end(#foreach($field in ${commonIndex.get($index)})$!{field.javaType} $!{field.propertyName} #if(${commonIndex.get($index).size()}!=$velocityCount),#end#end){
+        $!{className} $!{instName}  = new $!{className}();
+       #foreach($field in ${commonIndex.get($index)})
+           $!{instName}.$!{field.setterName}($!{field.propertyName});
+       #end
+        int result = $!{instName}Mapper.deleteByCommonIndex#foreach($field in ${commonIndex.get($index)})$!{field.propertyName}#end($!{instName});
+        return result == 0 ? false : true;
+    }
+    #end
+
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+    protected TransactionStatus initTansactionStatus(
+        PlatformTransactionManager transactionManager, int propagetion) {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();// 事务定义类
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        return transactionManager.getTransaction(def);
+    }
+
+
+    @Override
+    public Boolean batchSave(List<$!{className}> $!{instName}List) {
+        // 事务控制
+        TransactionStatus status = null;
+        try {
+            // 开始事务
+            status = this.initTansactionStatus(transactionManager,
+            TransactionDefinition.PROPAGATION_REQUIRED);
+            for($!{className} $!{instName}:$!{instName}List){
+                $!{instName}Mapper.save($!{instName});
+            }
+            transactionManager.commit(status);
+            return true;
+        }catch (Exception e){
+            transactionManager.rollback(status);
+            logger.error("批量保存失败",e);
+            return false;
+        }
+        }
+
+        @Override
+        public Boolean batchDelete(List<$!{className}> $!{instName}List) {
+            // 事务控制
+            TransactionStatus status = null;
+            try {
+                // 开始事务
+                status = this.initTansactionStatus(transactionManager,
+                TransactionDefinition.PROPAGATION_REQUIRED);
+                for($!{className} $!{instName}:$!{instName}List){
+                    #foreach($index in ${uniqueIndex.keySet()})
+                        $!{instName}Mapper.deleteByUniqueIndex#foreach($field in ${uniqueIndex.get($index)})$!{field.propertyName}#end($!{instName});
+                    #end
+                }
+            transactionManager.commit(status);
+            return true;
+            }catch (Exception e){
+                transactionManager.rollback(status);
+                logger.error("批量删除失败",e);
+                return false;
+            }
+            }
+
+            @Override
+            public Boolean batchDeleteAndSave(List<$!{className}> $!{instName}List) {
+                // 事务控制
+                TransactionStatus status = null;
+                try {
+                    // 开始事务
+                    status = this.initTansactionStatus(transactionManager,
+                    TransactionDefinition.PROPAGATION_REQUIRED);
+                    for($!{className} $!{instName}:$!{instName}List){
+                        #foreach($index in ${uniqueIndex.keySet()})
+                            $!{instName}Mapper.deleteByUniqueIndex#foreach($field in ${uniqueIndex.get($index)})$!{field.propertyName}#end($!{instName});
+                        #end
+                        $!{instName}Mapper.save($!{instName});
+                    }
+                    transactionManager.commit(status);
+                    return true;
+                }catch (Exception e){
+                    transactionManager.rollback(status);
+                    logger.error("批量删除又保存失败",e);
+                    return false;
+                }
+                }
+}

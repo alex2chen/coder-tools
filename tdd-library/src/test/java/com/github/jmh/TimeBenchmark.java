@@ -1,6 +1,6 @@
 package com.github.jmh;
 
-import com.github.util.SystemClock;
+import com.github.unit.util.SystemClock;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;

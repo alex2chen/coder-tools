@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="$!{package}.$!{className}Mapper">
+    <sql id="whereSelectiveSql">
+        <if test="query!= null">
+            #foreach($field in $fields)
+                #if( $field.jdbcType=="VARCHAR")
+                    <if test="query.$field.propertyName != null and query.$field.propertyName!=''">
+                        and   $!{field.fieldName} = #{query.$!{field.propertyName}}
+                    </if>
+                #else
+                    <if test="query.$field.propertyName != null">
+                        and   $!{field.fieldName} = #{query.$!{field.propertyName}}
+                    </if>
+                #end
+
+            #end
+        </if>
+    </sql>
+
+    <!--$!{tableName}表所有字段-->
+    <sql id="Base_Column_List">
+        #foreach($field in $fields)
+            $!{field.fieldName}  #if($fields.size()!=$velocityCount),#end   <!---->
+        #end
+    </sql>
+
+    <!--$!{tableName}表除了主键$!{pkid}的所有字段-->
+    <sql id="Base_Column_List_WithOutPk">
+        #foreach($field in $fields)
+            #if($field.fieldName != $pkid)
+                $!{field.fieldName}      #if($fields.size()!=$velocityCount),#end  <!---->
+            #end
+        #end
+    </sql>
+
+    <!--javabean除了主键$!{pkname}的所有字段-->
+    <sql id="Javabean_Column_List_WithOutPk">
+        #foreach($field in $fields)
+            #if($field.propertyName != $pkname)
+                #if( $field.jdbcType=="BIT")
+                    1 #if($fields.size()!=$velocityCount),#end
+                #elseif($field.jdbcType=="DATETIME")
+                    now() #if($fields.size()!=$velocityCount),#end
+                #else
+                    #{$!{field.propertyName}} #if($fields.size()!=$velocityCount),#end
+                #end     <!---->
+            #end
+        #end
+    </sql>
+
+    <!--查找$!{tableName}表所有数据-->
+    <select id="findAll" resultType="$!{className}">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM $!{tableName}
+    </select>
+    <!--统计$!{tableName}表的数据总量-->
+    <select id="findCount" parameterType="$!{pkType}" resultType="java.lang.Long">
+        SELECT count($!{pkid} )
+        FROM $!{tableName} where 1=1 ,
+        <include refid="whereSelectiveSql"/>
+    </select>
+
+    <!--根据条件，查找$!{tableName}表相应数据-->
+    <select id="queryBySelective" parameterType="$!{className}" resultType="$!{className}">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM $!{tableName} where 1=1
+        <include refid="whereSelectiveSql"/>
+    </select>
+
+    <!--根据条件，查找$!{tableName}表相应数据的总量-->
+    <select id="queryCountBySelective" parameterType="$!{className}" resultType="java.lang.Long">
+        SELECT
+        count($!{pkid} )
+
+        FROM  $!{tableName} where 1=1
+        <include refid="whereSelectiveSql"/>
+    </select>
+
+
+    <!--根据主键$!{pkid}，查找$!{tableName}表的唯一数据-->
+    <select id="queryByPrimaryKey" parameterType="$!{pkType}" resultType="$!{className}">
+
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM  $!{tableName} where  $!{pkid} = #{$!{pkname}}
+    </select>
+
+    <!--根据主键$!{pkid}，删除$!{tableName}表的唯一数据-->
+    <delete id="deleteByPrimaryKey" parameterType="$!{pkType}">
+        DELETE FROM $!{tableName} WHERE $!{pkid} = #{$!{pkname}}
+    </delete>
+
+    <!--根据主键$!{pkid}，更新$!{tableName}表相应数据-->
+    <update id="updateByPrimaryKeySelective" parameterType="$!{className}">
+        UPDATE $!{tableName}
+        <set>
+            #foreach($field in $fields)
+                <if test="$field.propertyName != null">
+                    $!{field.fieldName}=#{$!{field.propertyName}},
+                </if>
+            #end
+        </set>
+        WHERE $!{pkid} = #{$!{pkname}}
+    </update>
+
+    <!--保存数据-->
+    <insert id="save" parameterType="$!{className}">
+        INSERT INTO $!{tableName}
+        (
+        <include refid="Base_Column_List_WithOutPk"/>
+        )
+        VALUES
+        (
+        <include refid="Javabean_Column_List_WithOutPk"/>
+        )
+    </insert>
+
+    <!--根据条件，分页查找$!{tableName}表相应数据-->
+    <select id="queryBySelectiveForPagination" parameterType="$!{className}" resultType="$!{className}">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM $!{tableName} where 1=1
+        <include refid="whereSelectiveSql"/>
+        order by $!{pkid} LIMIT #{startRow} , #{pageSize}
+    </select>
+
+    <!--根据条件，分页查找$!{tableName}表相应数据的总量-->
+    <select id="queryCountBySelectiveForPagination" parameterType="$!{className}" resultType="java.lang.Long">
+        SELECT
+        count($!{pkid} )
+        FROM $!{tableName} where 1=1
+        <include refid="whereSelectiveSql"/>
+    </select>
+
+
+    #foreach($index in ${uniqueIndex.keySet()})
+        <delete id="deleteByUniqueIndex#foreach($field in ${uniqueIndex.get($index)})$!{field.propertyName}#end"
+                parameterType="$!{className}">
+            DELETE FROM $!{tableName} WHERE  #foreach($field in ${uniqueIndex.get($index)})    $!{field.fieldName}
+            =#{$!{field.propertyName}} and  #end 1=1
+        </delete>
+    #end
+
+    #foreach($index in ${commonIndex.keySet()})
+        <delete id="deleteByCommonIndex#foreach($field in ${commonIndex.get($index)})$!{field.propertyName}#end"
+                parameterType="$!{className}">
+            DELETE FROM $!{tableName} WHERE  #foreach($field in ${commonIndex.get($index)})    $!{field.fieldName}
+            =#{$!{field.propertyName}} and  #end 1=1
+        </delete>
+    #end
+</mapper>

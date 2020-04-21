@@ -1,0 +1,27 @@
+package $!{package};
+import $!{importBean};
+import java.util.List;
+import com.github.demo.util.domain.query.PageQuery;
+import com.github.demo.util.domain.query.Query;
+
+@Path("/$!{instName}/")
+@Consumes( { "application/json" })
+@Produces( { "application/json" })
+public interface $!{className}Contract{
+    @POST
+    @Path("queryByPrimaryKey")
+     public $!{className} queryByPrimaryKey($!{pkType} $!{pkname});
+
+    @POST
+    @Path("deleteByPrimaryKey")
+     public int deleteByPrimaryKey($!{pkType} $!{pkname});
+
+    @POST
+    @Path("updateByPrimaryKey")
+     public int updateByPrimaryKeySelective($!{className} $!{instName});
+
+    @POST
+    @Path("save")
+     public $!{pkType} save($!{className} $!{instName});
+
+}

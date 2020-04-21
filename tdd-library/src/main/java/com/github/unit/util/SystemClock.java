@@ -1,4 +1,4 @@
-package com.github.util;
+package com.github.unit.util;
 
 import java.time.Instant;
 import java.util.concurrent.Executors;

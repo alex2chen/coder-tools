@@ -1,0 +1,226 @@
+package $!{package};
+import $!{pkJavaFullType};
+import com.github.demo.util.ConstantModel;
+import com.github.demo.util.ErpException;
+import com.github.demo.util.pagination.PaginationAnnotion;
+import com.github.demo.util.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.github.demo.util.ZKnotify;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import com.github.demo.util.ControllerUtil;
+import javax.annotation.Resource;
+import com.github.insurance.item.contract.vo.$!{className}QueryVo;
+import com.github.insurance.item.contract.vo.$!{className}Vo;
+import com.github.insurance.item.contract.admin.$!{className}Resource;
+import com.github.insurance.item.contract.result.*;
+import com.github.insurance.item.contract.request.Query;
+import com.github.demo.util.*;
+
+@Controller
+@RequestMapping("/$!{instName}")
+public class $!{className}Controller {
+    private static final Logger logger = LoggerFactory.getLogger($!{className}Controller.class);
+    @Resource(name = "controllerUtil")
+    private ControllerUtil controllerUtil;
+    @Resource(name = "$!{instName}Resource")
+    private $!{className}Resource $!{instName}Resource;
+
+    /**
+    * 获取列表
+    *
+    * @param model
+    * @return
+    */
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @PaginationAnnotion(pageName = "p", pageSize = ConstantModel.pageSize)
+    public String list(Model model, $!{className}QueryVo $!{instName}QueryVo, Pagination pagination, HttpServletRequest request) throws Exception {
+    Query
+    <$!{className}QueryVo> $!{instName}QueryVoQuery = new Query
+        <$!{className}QueryVo>();
+            pagination.setPageSize(ConstantModel.pageSize);
+            $!{instName}QueryVoQuery.setPage(pagination);
+            $!{instName}QueryVoQuery.setQueryVo($!{instName}QueryVo);
+            logger.info(request.getRequestURI() + "请求报文:" + GsonUtils.toJson($!{instName}QueryVoQuery));
+            ListResult
+            <$!{className}Vo> $!{instName}VoListResult = $!{instName}Resource.list($!{instName}QueryVoQuery);
+                logger.info(request.getRequestURI() + "收到报文:" + GsonUtils.toJson($!{instName}VoListResult));
+                /* if(!$!{instName}VoListResult.getResultCode().equals(Constant.RESULT_SUCCESS_CODE)){
+                throw new Exception(request.getRequestURI()+"获取数据列表失败");
+                }*/
+                if ($!{instName}VoListResult.getValues() == null) {
+                throw new Exception(request.getRequestURI() + "获取数据列表为空");
+                }
+                model.addAttribute("count", $!{instName}VoListResult.getPage().getItemCount());
+                model.addAttribute("$!{instName}List", $!{instName}VoListResult.getValues());
+                ConstantModel.loadRequestParameterMapToModel(model, request);
+                controllerUtil.loadConfigToModel(model);
+                return "jsp/list/$!{className}List";
+    }
+
+     @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
+      public String toAdd(Model model) {
+        controllerUtil.loadConfigToModel(model);
+            return "jsp/add/$!{className}Add";
+     }
+
+
+            /**
+            * 新增
+            *
+            * @return
+            */
+            @RequestMapping(value = "/save", method = RequestMethod.POST)
+            @ResponseBody
+            @ZKnotify
+            public Result save($!{className}Vo $!{instName}Vo, HttpServletRequest request) {
+            Result result = new Result();
+            try {
+            logger.info(request.getRequestURI() + "请求报文:" + GsonUtils.toJson($!{instName}Vo));
+            BaseResult baseResult = $!{instName}Resource.add($!{instName}Vo);
+            logger.info(request.getRequestURI() + "收到报文:" + GsonUtils.toJson(baseResult));
+            String resultCode = baseResult.getResultCode();
+            if (!resultCode.equals(Constant.RESULT_SUCCESS_CODE)) {
+            throw new ErpException("", baseResult.getResultMsg());
+            }
+            result.setStatus(Boolean.TRUE);
+            } catch (Exception e) {
+            logger.error(request.getRequestURI(), e);
+            result.setStatus(Boolean.FALSE);
+            if (e instanceof ErpException) {
+            result.setReason(e.getMessage());
+            } else {
+            result.setReason("保存失败");
+            }
+            }
+            return result;
+            }
+
+            @RequestMapping(value = "/toEdit", method = RequestMethod.GET)
+            public String toEdit(Model model, Long id,HttpServletRequest request) throws Exception {
+            controllerUtil.loadConfigToModel(model);
+
+            logger.info(request.getRequestURI() + "请求报文:" + id);
+            DetailResult
+            <$!{className}Vo> $!{instName}VoResult = $!{instName}Resource.detail(id);
+                logger.info(request.getRequestURI() + "收到报文:" + GsonUtils.toJson($!{instName}VoResult));
+                /* if(!$!{instName}VoResult.getResultCode().equals(Constant.RESULT_SUCCESS_CODE)){
+                throw new Exception(request.getRequestURI()+"获取数据详情失败");
+                }*/
+                if ($!{instName}VoResult.getValue() == null) {
+                throw new Exception(request.getRequestURI() + "获取数据详情为空");
+                }
+                model.addAttribute("$!{instName}", $!{instName}VoResult.getValue());
+                return "jsp/edit/$!{className}Edit";
+                }
+
+
+                /**
+                * 更新一个
+                *
+                * @return
+                */
+                @RequestMapping(value = "/edit", method = RequestMethod.PUT)
+                @ResponseBody
+                @ZKnotify
+                public Result edit($!{className}Vo $!{instName}Vo, HttpServletRequest request) {
+                Result result = new Result();
+                try {
+
+                logger.info(request.getRequestURI() + "请求报文:" + GsonUtils.toJson($!{instName}Vo));
+                BaseResult baseResult = $!{instName}Resource.update($!{instName}Vo);
+                logger.info(request.getRequestURI() + "收到报文:" + GsonUtils.toJson(baseResult));
+                String resultCode = baseResult.getResultCode();
+                if (!resultCode.equals(Constant.RESULT_SUCCESS_CODE)) {
+                throw new ErpException("", baseResult.getResultMsg());
+                }
+                result.setStatus(Boolean.TRUE);
+                } catch (Exception e) {
+                logger.error("", e);
+                result.setStatus(Boolean.FALSE);
+                if (e instanceof ErpException) {
+                result.setReason(e.getMessage());
+                } else {
+                result.setReason("更新失败");
+                }
+                }
+                return result;
+                }
+
+                /**
+                * 删除一个
+                *
+                * @param id
+                * @return
+                */
+                @RequestMapping(value = "updateStatus", method = RequestMethod.GET)
+                @ResponseBody
+                @ZKnotify
+                public Result updateStatus(Long id,Integer status, HttpServletRequest request) {
+                Result result = new Result();
+                try {
+                $!{className}Vo $!{instName}Vo = new $!{className}Vo();
+                $!{instName}Vo.setId(id);
+                //$!{instName}Vo.setStatus(status);
+
+                logger.info(request.getRequestURI() + "请求报文:" + GsonUtils.toJson($!{instName}Vo));
+                BaseResult baseResult = $!{instName}Resource.update($!{instName}Vo);
+                logger.info(request.getRequestURI() + "收到报文:" + GsonUtils.toJson(baseResult));
+                String resultCode = baseResult.getResultCode();
+                if (!resultCode.equals(Constant.RESULT_SUCCESS_CODE)) {
+                throw new ErpException("", baseResult.getResultMsg());
+                }
+                result.setStatus(Boolean.TRUE);
+                } catch (Exception e) {
+                logger.error("", e);
+                result.setStatus(Boolean.FALSE);
+                if (e instanceof ErpException) {
+                result.setReason(e.getMessage());
+                } else {
+                result.setReason("更新状态失败");
+                }
+                }
+                return result;
+                }
+
+
+                /**
+                * 删除一个
+                *
+                * @param id
+                * @return
+                */
+                @RequestMapping(value = "delete", method = RequestMethod.DELETE)
+                @ResponseBody
+                @ZKnotify
+                public Result delete(Long id,HttpServletRequest request){
+                Result result=new Result();
+                try{
+
+                logger.info(request.getRequestURI()+"请求报文:"+id);
+                BaseResult baseResult=null;// = $!{instName}Resource.update($!{instName}Vo);
+                logger.info(request.getRequestURI()+"收到报文:"+GsonUtils.toJson(baseResult));
+                String resultCode=baseResult.getResultCode();
+                if(!resultCode.equals(Constant.RESULT_SUCCESS_CODE)){
+                throw new ErpException("",baseResult.getResultMsg());
+                }
+                result.setStatus(Boolean.TRUE);
+                }catch(Exception e){
+                logger.error("",e);
+                result.setStatus(Boolean.FALSE);
+                if(e instanceof ErpException){
+                result.setReason(e.getMessage());
+                }else{
+                result.setReason("删除失败");
+                }
+                }
+                return result;
+                }
+
+ }
